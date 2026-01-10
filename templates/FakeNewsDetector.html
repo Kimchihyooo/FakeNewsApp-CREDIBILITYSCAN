@@ -112,7 +112,7 @@
                             <textarea id="news-input" name="news_text" class="detector-textarea" placeholder="Paste your news article text here to analyze...">{{ news_text | default('', true) }}</textarea>
                         {% endif %}
 
-                        <button type="submit" class="detector-btn" style="margin-top: 20px;">Analyze</button>
+                        <button type="submit" class="detector-btn" id="btntext" style="margin-top: 20px;">Analyze</button>
 
                     </div>
                 
@@ -129,7 +129,7 @@
                             </div>
                         </div>
                         {% endif %}
-                        <button type="submit" class="detector-btn">Analyze Video</button>
+                        <button type="submit" class="detector-btn" id="btnvid">Analyze Video</button>
                     </div>
                 </form>
             </div> <div class="results-column">
@@ -342,9 +342,42 @@
                 }
             });
         }
+        // Analyze to Analyzing... button (TEXT)
+        if (analyzeForm){
+            analyzeForm.addEventListener('submit', function(){
+                const btn = document.getElementById('btntext');
+
+                //1.change the text to give feedback
+                btn.innerText = 'Analyzing...';
+
+                //2.Disabling the button
+                btn.style.opacity = '0.7';
+                btn.style.pointerEvents = 'none';
+                btn.style.cursor = 'wait';
+
+            });
+        
+        // Analyze Video to Analyzing Video... (VIDEO)
+        if (analyzeForm){
+            analyzeForm.addEventListener('submit', function(){
+                const btn = document.getElementById('btnvid');
+
+                //1. change the text to give feedback
+                btn.innerText = 'Analyzing Video...';
+
+                //2.Disabling the Button
+                btn.style.opacity = '0.7';
+                btn.style.pointerEvents = 'none';
+                btn.style.cursor = 'wait';
+            })
+        }
+
+
+        }
+        }
         // === END OF MODAL JAVASCRIPT ===
 
-    })();
+    )();
     </script>
 </body>
 </html>

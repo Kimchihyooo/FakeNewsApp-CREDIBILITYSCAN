@@ -371,6 +371,12 @@ input[type="url"].detector-textarea {
     background: #1741b6;
 }
 
+.detector-btn:disabled{
+    background-color:#6c757d;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
 /* === RIGHT RESULTS COLUMN === */
 .results-column {
     flex: 1; /* Makes this column 1x width */

@@ -1,0 +1,449 @@
+/* normalize heading spacing to avoid unexpected pushes */
+.AIdetect h1, .detector-title {
+  margin: 0;
+  padding: 0;
+}
+
+@font-face{
+    font-family: 'Recoleta';
+    src: url('../font/Recoleta-RegularDEMO.otf') format('truetype');
+    font-weight : normal;
+    font-style : normal;
+}
+
+/* Global Styles */
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  background-color: #f9fbff;
+  color: #080505;
+}
+
+/* Navbar */
+.navbar {
+    height: 80px;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;      /* Ensures it fills the entire page width */
+    left: 0;          /* Makes sure the fixed position spans from the left edge */
+    top: 0;      
+    padding-top: 100px;     /* Anchors it to the top */
+    padding: 20px 30px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+    z-index: 1000;    /* Stays above content */
+}
+
+.logo {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.logo h1 {
+    font-size: 0.9rem;
+    margin: 0;
+    font-family: "Recoleta", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+
+}
+
+.logo p {
+    font-size: 0.8rem;
+    color: #080505;
+    margin: auto;
+}
+
+nav a{
+    text-decoration: none;
+    color: #080505;
+    margin-left: 50px;
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: background 0.3s, color 0.3s;
+}
+
+nav a:hover {
+    color: #3B82F6;
+    border-radius: 8px;
+    background: #f3f4f6;
+}
+
+/* === NEW HAMBURGER MENU STYLES === */
+.nav-toggle {
+  display: none; /* Hide checkbox */
+}
+
+.nav-toggle-label {
+  display: none; /* Hide hamburger label on desktop */
+  cursor: pointer;
+  width: 30px;
+  height: 25px;
+  position: relative;
+  /* Ensure it's on top in mobile view if needed */
+  z-index: 1001; 
+}
+
+/* Hamburger Icon Lines */
+.nav-toggle-label span,
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+  display: block;
+  background-color: #080505;
+  height: 3px;
+  width: 100%;
+  border-radius: 2px;
+  position: absolute;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-toggle-label span::before {
+  content: '';
+  top: -8px;
+}
+
+.nav-toggle-label span::after {
+  content: '';
+  top: 8px;
+}
+
+/* Hamburger Animation on Click (transform to 'X') */
+.nav-toggle:checked ~ .nav-toggle-label span {
+  background-color: transparent; /* Middle bar fades */
+}
+
+.nav-toggle:checked ~ .nav-toggle-label span::before {
+  transform: rotate(45deg);
+  top: 0;
+}
+
+.nav-toggle:checked ~ .nav-toggle-label span::after {
+  transform: rotate(-45deg);
+  top: 0;
+}
+/* === END HAMBURGER STYLES === */
+
+
+/* Hero Section */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 650px;
+  max-width: 100%;
+  padding-top: 50px; 
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #88b2eb 0%, #fcfafa 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: rgb(0, 0, 0);                   
+}
+
+.hero-text {
+  max-width: 50%;
+  margin-left: 40px;
+}
+
+.hero-text h1 {
+  font-size: 3rem;
+  line-height: 1.2;
+  color: #080505;
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.highlight {
+  color: #3B82F6;
+  font-family: "Recoleta", sans-serif;
+
+}
+
+.hero-text p {
+  font-size: 1.1rem;
+  color: #080505;
+  margin: 20px 0 40px;
+  line-height: 1.6;
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.btn {
+  padding: 14px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn.primary {
+  background-color: #3B82F6;
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background-color: #1d4ed8;
+}
+
+.btn.secondary {
+  border: 2px solid #3B82F6;
+  color: #3B82F6;
+  background: none;
+}
+
+.btn.secondary:hover {
+  background-color: #3B82F6;
+  color: #fff;
+}
+
+/*Header INFO section*/
+.AIdetect h1 {
+  font-size: 1.8rem;
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+  color: #444;
+  text-align: center;
+  line-height: 1.6;
+  margin-top: 100px;
+  text-shadow: 2px 4px 8px rgba(44, 62, 80, 0.15);
+  background: #fcfafa;
+}
+
+/*Header Subsection*/
+.AIdetectsub p{
+  font-size: 1.1rem; /* Corrected from 1.1 */
+  color: #444;
+  font-optical-sizing: auto;
+  line-height: 1.6; /* Corrected from 0.1px */
+  text-shadow: 2px 4px 8px rgba(44, 62, 80, 0.15);
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: #fcfafa;
+  padding: 0 20px; /* Added padding */
+
+}
+
+.card {
+  width: 320px;
+  padding: 28px 24px;
+  background: #eceef0;
+  border-radius: 18px;
+  box-shadow: 0 1px 5px rgba(12, 50, 100, 0.06);
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  color: #222e3a;
+  
+  margin: 40px auto;
+}
+
+.icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eaf1fb;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  margin-bottom: 18px;
+}
+
+.icon-circle svg {
+  width: 26px;
+  height: 26px;
+  color: #3177e7;
+}
+
+img{
+  height: 40px;
+  width: 40px;
+}
+/* Cards Section */
+.card-title {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 30px;
+}
+
+.card-text {
+  font-size: 1em;
+  color: #556070;
+  line-height: 1.5;
+}
+
+.card-row {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding: 110px 0;
+  background: linear-gradient(180deg, #fcfafa 0%, #88b2eb  100%); 
+}
+
+
+/* =================================== */
+/* Mobile Responsive                   */
+/* =================================== */
+@media (max-width: 768px) {
+    
+    .navbar {
+        /* Keep logo and hamburger on one line */
+        flex-direction: row;
+        flex-wrap: wrap; /* Allows menu to drop below */
+        padding: 20px 30px; /* Consistent padding */
+    }
+
+    .logo {
+        margin-bottom: 0; /* Remove bottom margin */
+    }
+    
+    .logo h1 {
+        margin: 0; /* Remove top margin */
+    }
+
+    /* Show hamburger label */
+    .nav-toggle-label {
+        display: block;
+    }
+
+    /* Hide nav menu by default */
+    .nav-menu {
+        display: none;
+        width: 100%; /* Take full width */
+        flex-direction: column;
+        align-items: center;
+        background-color: #ffffff; /* Add background */
+        /* Position it below the logo/hamburger row */
+        order: 3; /* Places it at the end of the flex items */
+        padding-top: 10px;
+        /* Add shadow to separate from content */
+        box-shadow: 0 20px 20px -10px rgba(0,0,0,0.05); 
+    }
+
+    /* Show menu when checkbox is checked */
+    .nav-toggle:checked ~ .nav-menu {
+        display: flex;
+    }
+
+    /* Style links for mobile dropdown */
+    .nav-menu .bordernav {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+
+    nav a {
+        /* Stack links vertically */
+        margin: 5px 0;
+        padding: 10px 15px;
+        width: 90%;
+        text-align: center;
+        margin-left: 0; /* Reset desktop margin */
+    }
+
+  /* --- Hero Section --- */
+  .hero {
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+    padding: 100px 20px 60px; 
+    text-align: center;
+    margin-top: 20;
+  }
+
+  .hero-text {
+    max-width: 100%;
+    margin-left: 0;
+  }
+
+  .hero-text h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+  }
+
+  .buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .btn {
+    width: 80%;
+  }
+
+  /* --- Info Section --- */
+  .AIdetect h1 {
+    font-size: 1.5rem;
+    padding: 0 20px;
+  }
+  
+  .AIdetectsub p {
+    font-size: 1rem;
+    padding: 0 20px;
+    text-align: center;
+    line-height: 1.5;
+  }
+  
+  /* --- Cards Section --- */
+  .card-row {
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 0;
+    padding-top: 60px;
+    gap: 30px;
+  }
+
+  .card {
+    width: 90%;
+    flex-wrap: wrap;
+  }
+
+  /* --- Developers Section --- */
+  .Abt h1 {
+    text-align: center;
+  }
+  
+  .AbtdevelopersContainer {
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 10px 30px;
+  }
+
+  /* --- Footer --- */
+  .FooterNav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+}

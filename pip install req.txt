@@ -1,0 +1,7 @@
+pip install req:
+
+py -m pip install fastapi uvicorn[standard] jinja2 pydantic python-dotenv httpx scikit-learn joblib torch langid lime stopwords tensorflow opencv-python ultralytics numpy yt-dlp itsdangerous openai-whisper transfomers
+
+after pip:
+
+winget install ffmpeg

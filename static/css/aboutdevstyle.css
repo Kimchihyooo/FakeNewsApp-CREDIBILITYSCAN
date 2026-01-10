@@ -1,0 +1,360 @@
+@font-face{
+    font-family: 'Erbaum';
+    src: url('../font/Erbaum-Light.ttf') format('truetype');
+    font-weight : normal;
+    font-style : normal;
+}
+@font-face{
+    font-family: 'Recoleta';
+    src: url('../font/Recoleta-RegularDEMO.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    background-color: #f9fbff;
+    color: #080505;
+}
+/* Navbar */
+.navbar {
+    display: flex;
+    position: fixed;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;      /* Ensures it fills the entire page width */
+    left: 0;          /* Makes sure the fixed position spans from the left edge */
+    top: 0;           /* Anchors it to the top */
+    padding: 30px 30px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+    z-index: 1000;    /* Stays above content */
+}
+
+.logo {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.logo h1 {
+    font-size: 1.0rem;
+    margin: 5px 0 0;
+    /* MODIFIED - Matched font to other pages for consistency */
+    font-family: "Recoleta", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    
+}
+
+.logo p {
+    font-size: 0.8rem;
+    color: #080505;
+    margin: auto;
+}
+
+/* Nav Menu Wrapper */
+/* Navbar */
+.navbar {
+    /* MODIFIED - Cleaned up conflicting rules */
+    height: 80px; 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    left: 0;
+    top: 0;      
+    padding: 20px 30px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+    z-index: 1000;
+}
+.logo {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+
+.logo h1 {
+    font-size: 1.0rem;
+    margin: 5px 0 0;
+    font-family: "Recoleta", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+}
+
+.logo p {
+    font-size: 0.8rem;
+    color: #080505;
+    margin: auto;
+}
+
+
+nav a{
+    text-decoration: none;
+    color: #080505;
+    margin-left: 50px;
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: background 0.3s, color 0.3s;
+}
+
+nav a:hover {
+    color: #3B82F6;
+    border-radius: 8px;
+    background: #f3f4f6;
+}
+/* === NEW HAMBURGER MENU STYLES === */
+.nav-toggle {
+  display: none; /* Hide checkbox */
+}
+
+.nav-toggle-label {
+  display: none; /* Hide hamburger label on desktop */
+  cursor: pointer;
+  width: 30px;
+  height: 25px;
+  position: relative;
+  z-index: 1001; 
+}
+
+/* Hamburger Icon Lines */
+.nav-toggle-label span,
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+  display: block;
+  background-color: #080505;
+  height: 3px;
+  width: 100%;
+  border-radius: 2px;
+  position: absolute;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-toggle-label span::before {
+  content: '';
+  top: -8px;
+}
+
+.nav-toggle-label span::after {
+  content: '';
+  top: 8px;
+}
+
+/* Hamburger Animation on Click (transform to 'X') */
+.nav-toggle:checked ~ .nav-toggle-label span {
+  background-color: transparent; /* Middle bar fades */
+}
+
+.nav-toggle:checked ~ .nav-toggle-label span::before {
+  transform: rotate(45deg);
+  top: 0;
+}
+
+.nav-toggle:checked ~ .nav-toggle-label span::after {
+  transform: rotate(-45deg);
+  top: 0;
+}
+/* === END HAMBURGER STYLES === */
+
+
+/*ABOUTUS*/
+.team-hero{
+    /* MODIFIED - Adjusted margin for desktop navbar */
+    margin-top: 50px;
+    padding: 80px 20px;
+    text-align: center;
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    background: linear-gradient(180deg, #88b2eb 0%, #fcfafa 100%);
+}
+.Meet{
+    text-shadow: 0 50px 50px rgba(0,0,0,0.05);
+}
+
+
+
+.team-container {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6rem; /* 32px */
+}
+
+.team-container2{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6rem;
+}
+
+/* Individual Team Card Styles */
+.team-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(28, 42, 78, 0.08);
+    padding: 2rem;
+    width: 250px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-family: 'Rubik', sans-serif;
+}
+
+.team-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 30px rgba(28, 42, 78, 0.12);
+}
+
+/* Team Member Image */
+.team-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%; /* Makes the image a circle */
+    object-fit: cover; /* Prevents image distortion */
+    margin-bottom: 1.5rem; /* 24px */
+    border: 4px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Name and Role Text */
+.team-card h3 {
+    font-size: 1.1rem; /* 20px */
+    color: #1c2a4e;
+    margin: 0 0 0.25rem 0; /* 4px bottom margin */
+}
+
+.team-card span {
+    font-size: 0.6rem; /* 14.4px */
+    color: #007bff; /* A highlight color for the role */
+    font-weight: 600;
+}
+
+/*OBJ*/
+.objectivescontainer{
+    margin-top: 70px;
+    padding: 80px 20px;
+    text-align: center;
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    background: linear-gradient(180deg, #fcfafa 0%, #88b2eb 100%);
+}
+.Obj{
+    text-shadow: 0 50px 50px rgba(0,0,0,0.05);
+    font-size: 80px;
+    justify-items: baseline;
+}
+
+.Key{
+    text-align: left;
+}
+
+/* === MOBILE RESPONSIVE STYLES === */
+@media (max-width: 768px) {
+    
+    .navbar {
+        /* Keep logo and hamburger on one line */
+        flex-direction: row;
+        flex-wrap: wrap; /* Allows menu to drop below */
+        padding: 20px 30px; /* Consistent padding */
+    }
+
+    .logo {
+        margin-bottom: 0; /* Remove bottom margin */
+    }
+    
+    .logo h1 {
+        margin: 0; /* Remove top margin */
+    }
+
+    /* Show hamburger label */
+    .nav-toggle-label {
+        display: block;
+    }
+
+    /* Hide nav menu by default */
+    .nav-menu {
+        display: none;
+        width: 100%; /* Take full width */
+        flex-direction: column;
+        align-items: center;
+        background-color: #ffffff; /* Add background */
+        /* Position it below the logo/hamburger row */
+        order: 3; /* Places it at the end of the flex items */
+        padding-top: 10px;
+        /* Add shadow to separate from content */
+        box-shadow: 0 20px 20px -10px rgba(0,0,0,0.05); 
+    }
+
+    /* Show menu when checkbox is checked */
+    .nav-toggle:checked ~ .nav-menu {
+        display: flex;
+    }
+
+    /* Style links for mobile dropdown */
+    .nav-menu .bordernav {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+
+    nav a {
+        /* Stack links vertically */
+        margin: 5px 0;
+        padding: 10px 15px;
+        width: 90%;
+        text-align: center;
+        margin-left: 0; /* Reset desktop margin */
+    }
+
+    /* === NEW CONTENT STYLES === */
+    .team-hero {
+        /* Adjust margin for mobile navbar */
+        margin-top: 50px; 
+        /* Reduce padding for smaller screens */
+        padding: 40px 20px;
+    }
+
+    .team-container,
+    .team-container2 {
+        /* Stack cards vertically */
+        flex-direction: column;
+        gap: 2rem; /* Reduce gap */
+        margin-top: 30px;
+    }
+
+    .team-card {
+        /* Make cards wider on mobile */
+        width: 85%;
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    .objectivescontainer {
+        padding: 40px 20px;
+    }
+
+    .Obj {
+        /* Reduce font size for mobile */
+        font-size: 2.5rem; 
+    }
+}

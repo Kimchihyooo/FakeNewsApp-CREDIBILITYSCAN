@@ -1,0 +1,678 @@
+@font-face{
+    font-family: 'Recoleta';
+    src: url('../font/Recoleta-RegularDEMO.otf') format('truetype');
+    font-weight : normal;
+    font-style : normal;
+}
+/* === GLOBAL & BODY === */
+body {
+    font-family: 'Rubik', 'Inter', sans-serif;
+    margin: 0;
+    background-color: #f9fbff;
+    color: #080505;
+}
+
+/* Navbar */
+.navbar {
+    height: 80px;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;      /* Ensures it fills the entire page width */
+    left: 0;          /* Makes sure the fixed position spans from the left edge */
+    top: 0;      
+    padding-top: 100px;     /* Anchors it to the top */
+    padding: 20px 30px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+    z-index: 1000;    /* Stays above content */
+}
+
+.logo {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.logo h1 {
+    font-size: 0.9rem;
+    margin: 0;
+    font-family: "Recoleta", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+
+}
+
+.logo p {
+    font-size: 0.8rem;
+    color: #080505;
+    margin: auto;
+}
+
+nav a{
+    text-decoration: none;
+    color: #080505;
+    margin-left: 50px;
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: background 0.3s, color 0.3s;
+}
+
+nav a:hover {
+    color: #3B82F6;
+    border-radius: 8px;
+    background: #f3f4f6;
+}
+
+/* === NEW HAMBURGER MENU STYLES === */
+.nav-toggle {
+  display: none; /* Hide checkbox */
+}
+
+.nav-toggle-label {
+    display: none; /* Hide hamburger label on desktop */
+    cursor: pointer;
+    width: 30px;
+    height: 25px;
+    position: relative;
+  /* Ensure it's on top in mobile view if needed */
+    z-index: 1001; 
+}
+
+/* Hamburger Icon Lines */
+.nav-toggle-label span,
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+    display: block;
+    background-color: #080505;
+    height: 3px;
+    width: 100%;
+    border-radius: 2px;
+    position: absolute;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-toggle-label span::before {
+    content: '';
+    top: -8px;
+}
+
+.nav-toggle-label span::after {
+    content: '';
+    top: 8px;
+}
+
+/* Hamburger Animation on Click (transform to 'X') */
+.nav-toggle:checked ~ .nav-toggle-label span {
+  background-color: transparent; /* Middle bar fades */
+}
+
+.nav-toggle:checked ~ .nav-toggle-label span::before {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+.nav-toggle:checked ~ .nav-toggle-label span::after {
+    transform: rotate(-45deg);
+    top: 0;
+}
+/* === END HAMBURGER STYLES === */
+
+/* --- STYLES FOR THE NEW LEGEND BOX --- */
+        .legend-box {
+            margin-top: 20px; /* Add space above the legend */
+            border-top: 1px solid #dee1e7; /* Separator line */
+            padding-top: 16px;
+        }
+        .legend-box h4 { /* Using h4 for smaller hierarchy */
+            font-family: 'Rubik', sans-serif;
+            font-weight: 600;
+            margin: 0 0 12px 0;
+            color: #222a36;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #444a57;
+        }
+        .legend-item span {
+            font-weight: 500;
+        }
+        .legend-color-box {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            margin-right: 10px;
+            flex-shrink: 0; /* Prevents shrinking */
+        }
+        .legend-good {
+            background-color: #dcfce7;
+            border: 1px solid #166534;
+        }
+        .legend-bad {
+            background-color: #fee2e2;
+            border: 1px solid #b91c1c;
+        }
+
+/* === MAIN DETECTOR CONTAINER === */
+.detector-container {
+    max-width: 1500px;
+    margin: 40px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.detector-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-family: "Rubik", sans-serif;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.detector-subtitle {
+    font-size: 1.1rem;
+    font-family: "Rubik", sans-serif;
+    color: #444a57;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* === RECENT HISTORY SECTION (Now used by Modal) === */
+.history-container {
+    margin-top: 15px; /* Add space above */
+    margin-bottom: 30px; /* Add space below */
+    padding-top: 20px;
+    border-top: 1px solid #dee1e7;
+}
+
+.history-container h3 {
+    font-family: 'Rubik', sans-serif;
+    font-weight: 600;
+    color: #222a36;
+    margin: 0 0 15px 0;
+    font-size: 1.1rem;
+}
+
+.history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px; /* Makes list scrollable if it gets too long */
+    overflow-y: auto;
+    padding-right: 5px; /* Space for scrollbar */
+}
+
+.history-item {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.history-summary {
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.9rem;
+    color: #343a40;
+    margin: 8px 0;
+    line-height: 1.4;
+    /* Prevents long text from breaking layout */
+    word-break: break-word;
+}
+
+.history-type {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+/* Style for Text items */
+.history-type-text {
+    background-color: #e0e7ff; /* Light blue */
+    color: #3730a3;
+}
+
+/* Style for Video items */
+.history-type-video {
+    background-color: #fee2e2; /* Light red */
+    color: #991b1b;
+}
+
+.history-verdict {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #444a57;
+}
+
+.history-empty {
+    font-size: 0.9rem;
+    color: #6c757d;
+    padding: 15px;
+    background: #f8f9fa;
+    border: 1px dashed #dee1e7;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* === 2-COLUMN LAYOUT WRAPPER === */
+.main-content-wrapper {
+    display: flex;
+    flex-wrap: wrap; /* Allows columns to stack on mobile */
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(44,62,80,0.08);
+    padding: 32px;
+}
+
+/* Compact input tab bar (Text / Video) - non-intrusive */
+.input-tab-bar {
+    display: inline-flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.tab {
+    background: #f3f4f6;
+    border: 1px solid #e6e9ef;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.tab:hover { background:#eef2ff; }
+.tab-active {
+    background: #ffffff;
+    color: #2563eb;
+    box-shadow: 0 4px 8px rgba(37,99,235,0.08);
+}
+
+/* Make tab bar very visible and ensure it displays (debug/visibility fix) */
+.input-tab-bar {
+    display: inline-flex !important;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    padding: 6px;
+    border-radius: 10px;
+}
+
+/* Smaller height for URL inputs that reuse detector-textarea */
+input[type="url"].detector-textarea {
+    min-height: 48px;
+    padding: 10px 12px;
+    resize: none;
+}
+
+/* Mode container helpers */
+.mode { margin-top: 8px; }
+.mode-video { display: none; }
+
+
+/* === LEFT INPUT COLUMN === */
+.input-column {
+    flex: 1.5; /* Makes this column 1.5x width of the other */
+    min-width: 350px;
+    padding-right: 25px;
+    box-sizing: border-box;
+}
+
+.detector-label {
+    font-size: 1.1rem;
+    font-family: "Rubik", sans-serif;
+    font-weight: 600;
+    color: #222a36;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.detector-textarea {
+    width: 100%;
+    min-height: 450px;
+    font-size: 1rem;
+    font-family: 'Rubik', sans-serif;
+    border: 1px solid #dee1e7;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 20px;
+    resize: vertical;
+    box-sizing: border-box;
+    color: #222a36;
+    background: #fafbfc;
+}
+.detector-textarea::placeholder {
+    color: #9ca3af;
+    font-size: 1rem;
+}
+
+.detector-btn {
+    background: #2563eb;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.2rem;
+    font-family: "Rubik", sans-serif;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 40px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+}
+.detector-btn:hover {
+    background: #1741b6;
+}
+
+/* === RIGHT RESULTS COLUMN === */
+.results-column {
+    flex: 1; /* Makes this column 1x width */
+    min-width: 350px;
+    padding-left: 25px;
+    box-sizing: border-box;
+    border-left: 1px solid #dee1e7;
+}
+
+.results-placeholder h3 {
+    color: #444a57;
+    font-family: "Rubik", sans-serif;
+    font-weight: 600;
+}
+.results-placeholder p {
+    color: #6c757d;
+    font-family: "Rubik", sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Styles for the results when they appear */
+.results-content h2 {
+    font-family: "Rubik", sans-serif;
+    font-weight: 600;
+    margin-top: 0;
+}
+
+.score-box {
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+.score-box p {
+    font-size: 15px;
+}
+.score {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+}
+.bar {
+    width: 100%;
+    height: 10px;
+    background-color: rgba(128, 128, 128, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+.bar-fill {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.classification {
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-left: 5px solid;
+    margin-bottom: 24px;
+}
+
+/* === SCROLLABLE LINKS CHANGES ARE HERE === */
+.sources {
+    max-height: 300px; /* Set a max height for the container */
+    overflow-y: auto; /* Add vertical scrollbar ONLY if needed */
+    position: relative; /* Required for the sticky h3 */
+    padding-right: 10px; /* Add space for the scrollbar */
+}
+.source-link{
+    font-size: 15px;
+    margin: 2px 0;
+}
+.source-snippet{
+    font-size: 13px;
+    margin-top: 2px;
+}
+.source-title{
+    font-size: 20px;
+    text-decoration: none;
+    margin-bottom: 2px;
+    display: block;
+}
+
+.sources h3 {
+    font-family: "Rubik", sans-serif;
+    font-weight: 600;
+    position: sticky; /* Make the title stick to the top */
+    top: 0;
+    background-color: #ffffff; /* Give it a background to hide text scrolling under it */
+    padding-bottom: 5px; /* Add some space below the sticky header */
+    margin-top: 0; /* Remove default margin */
+}
+
+
+/* Optional: Prettier scrollbar for webkit browsers (Chrome, Safari) */
+.sources::-webkit-scrollbar {
+    width: 8px;
+}
+.sources::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+.sources::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+.sources::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+/* === END OF SCROLLABLE CHANGES === */
+
+/* === RESPONSIVE STYLES === */
+
+@media (max-width: 768px) {
+    .navbar {
+        /* Keep logo and hamburger on one line */
+        flex-direction: row;
+        flex-wrap: wrap; /* Allows menu to drop below */
+        padding: 20px 30px; /* Consistent padding */
+    }
+
+    .logo {
+        margin-bottom: 0; /* Remove bottom margin */
+    }
+    
+    .logo h1 {
+        margin: 0; /* Remove top margin */
+    }
+
+    /* Show hamburger label */
+    .nav-toggle-label {
+        display: block;
+    }
+
+    /* Hide nav menu by default */
+    .nav-menu {
+        display: none;
+        width: 100%; /* Take full width */
+        flex-direction: column;
+        align-items: center;
+        background-color: #ffffff; /* Add background */
+        /* Position it below the logo/hamburger row */
+        order: 3; /* Places it at the end of the flex items */
+        padding-top: 10px;
+        /* Add shadow to separate from content */
+        box-shadow: 0 20px 20px -10px rgba(0,0,0,0.05); 
+    }
+
+    /* Show menu when checkbox is checked */
+    .nav-toggle:checked ~ .nav-menu {
+        display: flex;
+    }
+
+    /* Style links for mobile dropdown */
+    .nav-menu .bordernav {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+
+    nav a {
+        /* Stack links vertically */
+        margin: 5px 0;
+        padding: 10px 15px;
+        width: 90%;
+        text-align: center;
+        margin-left: 0; /* Reset desktop margin */
+    }
+
+    .detector-container{
+        margin-top: 150px;
+    }
+    .input-column {
+        padding-right: 0;
+    }
+
+    .results-column {
+        border-left: none; /* Remove vertical divider */
+        border-top: 1px solid #dee1e7; /* Add horizontal divider */
+        padding-left: 0;
+        padding-top: 25px; /* Add space when stacked */
+        margin-top: 25px;
+    }
+}
+
+
+/* === NEW STYLES FOR HISTORY MODAL === */
+
+/* === HISTORY TRIGGER BUTTON === */
+.history-trigger-btn {
+    font-family: 'Rubik', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #444a57;
+    background-color: #f3f4f6;
+    border: 1px solid #dee1e7;
+    border-radius: 8px;
+    padding: 10px 16px;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+    margin-bottom: 24px; /* Space below button */
+}
+
+.history-trigger-btn:hover {
+    background-color: #e9ecef;
+    color: #000;
+    border-color: #cdd2d9;
+}
+
+/* === HISTORY MODAL STYLES === */
+.modal-overlay {
+    /* Hidden by default */
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(34, 42, 54, 0.6); /* Darker overlay */
+    z-index: 2000; /* On top of everything */
+    
+    /* Flex to center the content */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Animation */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Active state (toggled by JS) */
+.modal-overlay.modal-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    width: 90%;
+    max-width: 600px; /* Good width for a modal */
+    position: relative;
+    
+    /* Animation */
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.modal-active .modal-content {
+    transform: translateY(0);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.modal-close-btn {
+    font-family: 'Arial', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: #6c757d;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.modal-close-btn:hover {
+    color: #000;
+}
+
+/* Tweak existing history styles to fit modal */
+.modal-content .history-container {
+    margin: 0; /* Remove margins */
+    border-top: none; /* Remove top border */
+    padding-top: 0; /* Remove padding */
+}
+
+.modal-content .history-list {
+    padding: 24px; /* Add padding to the list itself */
+    max-height: 450px; /* Allow more height in a modal */
+}
+
+.modal-content .history-empty {
+    margin: 24px; /* Add margin to the empty message */
+}

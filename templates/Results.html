@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Results</title>
+    <link rel="stylesheet" href="../static/css/Resultstyle.CSS" />
+    <link href="https://fonts.googleapis.com/css2?family=Geo:ital@0;1&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar">
+        <div class="logo">
+            <h1>CredibilityScan</h1>
+        </div>
+    
+        <!-- Hamburger Toggle Checkbox (hidden) -->
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+
+        <!-- Hamburger Icon Label -->
+        <label for="nav-toggle" class="nav-toggle-label">
+            <span></span>
+        </label>
+
+        <!-- Navigation Menu Wrapper -->
+        <nav class="nav-menu">
+            <div class="bordernav">
+                <a href="/">Home</a>
+                <a href="detector">Fake News Detector</a>
+                <a href="about">About Us</a>
+            </div>
+        </nav>
+    </header>
+
+
+    <!--Results-->
+    <div class="resultscontainer" style="color: {{ colors.text_color }};">
+        <h2 style="color: {{ colors.text_color }};">Assesstment Results</h2>
+
+            <!--score-->
+            <div class="score-box" id="scoreBox" style="background-color: {{ colors.bg_color }}; color: {{ colors.text_color }};">
+            <p class="score" id="scoreValue">0%</p>
+            <p><strong>Credibility Score</strong><br>
+            <div class="bar"><div class="bar-fill" id="barFill" style="width: {{ score_value }}%; background-color: {{ colors.accent_color }};"></div></div>
+            </div>
+
+        <!--Classification-->
+        <div class="classification" id="classifications" style="background-color: {{ colors.bg_color }}; border-left-color: {{ colors.accent_color }};"> Most Likely {{ classification_text }}</div>
+
+        <!--Sources-->
+        <div class="sources">
+    <h3>Supporting Evidence</h3>
+
+    {% if supporting_articles %}
+
+        {% for article in supporting_articles %}
+        <div class="source-item">
+            
+            <a href="{{ article.link }}" target="_blank" style="font-weight: bold; color: #0000EE; text-decoration: underline;">
+                {{ article.title }}
+            </a>
+            
+            <p style="font-size: 0.9em; color: #555; margin: 2px 0;">
+                {{ article.displayLink }}
+            </p>
+            
+            <p style="margin-top: 4px;">
+                {{ article.snippet }}
+            </p>
+            
+        </div>
+        {% endfor %}
+    
+    {% else %}
+        <div class="source-item">
+            <p>No supporting articles were found.</p>
+        </div>
+    {% endif %}
+
+</div>
+        
+        <!--Interpretation-->
+        <div class="details">
+            <h3>
+            *Interpretation section*
+            
+            </h3>
+            
+        </div>
+    </div>
+
+
+        <!--BUTTON-->
+        <div class="button">
+            <a href="/detector"><button class="btn-try-another">Try Another Article</button></a>
+        </div>
+
+</body>
+</html>

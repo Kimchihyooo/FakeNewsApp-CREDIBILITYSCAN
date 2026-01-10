@@ -1,0 +1,364 @@
+.AIdetect h1, .detector-title {
+    margin: 0;
+    padding: 0;
+}
+
+@font-face{
+    font-family: 'Erbaum';
+    src: url('../font/Erbaum-Light.ttf') format('truetype');
+    font-weight : normal;
+    font-style : normal;
+}
+@font-face{
+    font-family: 'Recoleta';
+    src: url('../font/Recoleta-RegularDEMO.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Global Styles */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f9fbff;
+    color: #080505;
+}
+
+/* Navbar */
+.navbar {
+    /* MODIFIED - Cleaned up conflicting rules */
+    height: 80px; 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    left: 0;
+    top: 0;      
+    padding: 20px 30px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+    z-index: 1000;
+}
+.logo {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.logo img {
+    width: 30px;
+    height: 30px;
+}
+
+.logo h1 {
+    font-size: 1.0rem;
+    margin: 5px 0 0;
+    font-family: "Recoleta", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+}
+
+.logo p {
+    font-size: 0.8rem;
+    color: #080505;
+    margin: auto;
+}
+
+
+nav a{
+    text-decoration: none;
+    color: #080505;
+    margin-left: 50px;
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: background 0.3s, color 0.3s;
+}
+
+nav a:hover {
+    color: #3B82F6;
+    border-radius: 8px;
+    background: #f3f4f6;
+}
+
+/* === NEW HAMBURGER MENU STYLES === */
+.nav-toggle {
+  display: none; /* Hide checkbox */
+}
+
+.nav-toggle-label {
+    display: none; /* Hide hamburger label on desktop */
+    cursor: pointer;
+    width: 30px;
+    height: 25px;
+    position: relative;
+    z-index: 1001; 
+}
+
+/* Hamburger Icon Lines */
+.nav-toggle-label span,
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+    display: block;
+    background-color: #080505;
+    height: 3px;
+    width: 100%;
+    border-radius: 2px;
+    position: absolute;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-toggle-label span::before {
+    content: '';
+    top: -8px;
+}
+
+.nav-toggle-label span::after {
+    content: '';
+    top: 8px;
+}
+
+/* Hamburger Animation on Click (transform to 'X') */
+.nav-toggle:checked ~ .nav-toggle-label span {
+  background-color: transparent; /* Middle bar fades */
+}
+
+.nav-toggle:checked ~ .nav-toggle-label span::before {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+.nav-toggle:checked ~ .nav-toggle-label span::after {
+    transform: rotate(-45deg);
+    top: 0;
+}
+/* === END HAMBURGER STYLES === */
+
+
+/*RESULTS BOX*/
+.resultscontainer {
+    max-width: 850px;
+    margin-top: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 15px;
+    padding: 32px 32px 40px 32px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    font-family: 'rubik', sans-serif;
+}
+
+/* ... (rest of your results styles are unchanged) ... */
+h2 {
+    color: #0b0f18; 
+    margin-bottom: 10px;
+    font-family: 'Erbaum' sans-serif;
+}
+.assest{
+    font-family: 'Erbaum';
+
+}
+h5 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+h3{
+    margin-top: 1px;
+    margin-bottom: 10px;
+}
+
+.score-box{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: "Rubik", sans-serif;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: background 0.3s ease;
+    
+}
+.classification{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "Erbaum", sans-serif;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+
+
+
+.score {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.bar {
+    height: 10px;
+    width: 100%;
+    background-color: #f3f4f6;
+    border-radius: 5px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+    .bar-fill {
+    height: 100%;
+    width: 0%;
+    transition: width 0.7s ease;
+}
+
+.classification {
+    border-left: 4px solid #b91c1c;
+    background-color: #fef2f2;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.classification h3 {
+    margin-top: 0;
+}
+
+.sources, .details {
+    background-color: #f9fafb;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 25px;
+    font-family: 'Rubik';
+}
+
+.source-item {
+    background-color: #fff;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #e5e7eb;
+}
+
+.source-item a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+ul {
+    margin: 0;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 6px;
+}
+
+.btn-try-another {
+padding: 14px 28px;
+border-radius: 8px;
+text-decoration: none;
+font-weight: 600;
+transition: 0.3s;
+font-family: 'rubik', sans-serif;
+}
+
+.btn-try-another :hover {
+  background-color: #1558b0; /* darker blue on hover */
+}
+
+.button{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 100px;
+}
+
+button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+button:hover {
+    background-color: #1d4ed8;
+}
+
+
+/* === MOBILE RESPONSIVE STYLES === */
+@media (max-width: 768px) {
+    
+    .navbar {
+        /* Keep logo and hamburger on one line */
+        flex-direction: row;
+        flex-wrap: wrap; /* Allows menu to drop below */
+        padding: 20px 30px; /* Consistent padding */
+    }
+
+    .logo {
+        margin-bottom: 0; /* Remove bottom margin */
+    }
+    
+    .logo h1 {
+        margin: 0; /* Remove top margin */
+    }
+
+    /* Show hamburger label */
+    .nav-toggle-label {
+        display: block;
+    }
+
+    /* Hide nav menu by default */
+    .nav-menu {
+        display: none;
+        width: 100%; /* Take full width */
+        flex-direction: column;
+        align-items: center;
+        background-color: #ffffff; /* Add background */
+        /* Position it below the logo/hamburger row */
+        order: 3; /* Places it at the end of the flex items */
+        padding-top: 10px;
+        /* Add shadow to separate from content */
+        box-shadow: 0 20px 20px -10px rgba(0,0,0,0.05); 
+    }
+
+    /* Show menu when checkbox is checked */
+    .nav-toggle:checked ~ .nav-menu {
+        display: flex;
+    }
+
+    /* Style links for mobile dropdown */
+    .nav-menu .bordernav {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+
+    nav a {
+        /* Stack links vertically */
+        margin: 5px 0;
+        padding: 10px 15px;
+        width: 90%;
+        text-align: center;
+        margin-left: 0; /* Reset desktop margin */
+    }
+
+    /* === NEW FIX === */
+    /* Adjust top margin for mobile navbar */
+    .resultscontainer {
+        margin-top: 100px; /* Matches other pages */
+    }
+}

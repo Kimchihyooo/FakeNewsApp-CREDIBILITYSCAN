@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Homepage</title>
+        <link rel="stylesheet" href="../static/css/Homepagestyle.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Geo:ital@0;1&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+    </head>
+<body>
+  <!-- Header -->
+  <header class="navbar">
+    <div class="logo">
+      <h1>CredibilityScan</h1>
+    </div>
+    
+    <!-- Hamburger Toggle Checkbox (hidden) -->
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <!-- Hamburger Icon Label -->
+    <label for="nav-toggle" class="nav-toggle-label">
+      <span></span>
+    </label>
+
+    <!-- Navigation Menu Wrapper -->
+    <nav class="nav-menu">
+      <div class="bordernav">
+        <a href="/">Home</a>
+        <a href="detector">Detector</a>
+        <a href="about">About Us</a>
+      </div>
+    </nav>
+  </header>
+
+
+  <!-- Hero Section-->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>
+        <span class="highlight">CredibilityScan</span><br>
+        
+      </h1>
+      
+
+      <div class="buttons">
+        <a href="/detector" class="btn primary">Try Detector Now</a>
+        <a href="/about" class="btn secondary">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!--HOW CREDIBILITYSCAN  -->
+
+    <div class = "AIdetect"><h1>How CredibilityScan Assesses News Credibility</h1></div>
+    <div class = "AIdetectsub"><p> “From classification to verified evidence — CredibilityScan helps you identify trustworthy information in seconds.”</p></div>
+    
+  <!--INFORCARDS  -->
+  <div class="card-row">
+  <div class="card">
+    <div class="icon-circle">
+      <img src="../static/iCONS/percentage.png">
+    </div>
+      <div class="card-title">Credibility Scoring</div>
+    <div class="card-text">
+      Using the Random Forest classification algorithm, the system computes a credibility score ranging from 0% to 100%, reflecting the reliability level of the article.
+    </div>
+  </div>
+  <div class="card">
+    <div class="icon-circle">
+      <img src="../static/iCONS/ml-model.png">
+    </div>
+      <div class="card-title">Machine Learning Classification</div>
+    <div class="card-text">
+      The Random Forest model classifies online news as Real or Fake. This automated classification allows for consistent and scalable credibility assessment.
+    </div>
+  </div>
+  <div class="card">
+    <div class="icon-circle">
+      <img src="../static/iCONS/research.png">
+    </div>
+    <div class="card-title">Cross-Referencing</div>
+    <div class="card-text">
+      The system conducts automated cross-referencing by comparing extracted claims and keywords from the submitted article against Reputable Philippine news online sources.
+    </div>
+  </div>
+  </div>
+  
+
+</body>
+</html>

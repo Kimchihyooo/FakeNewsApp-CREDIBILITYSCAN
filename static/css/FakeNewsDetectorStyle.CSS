@@ -354,6 +354,16 @@ input[type="url"].detector-textarea {
     font-size: 1rem;
 }
 
+.word-count{
+    text-align: right;
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-top: -15px;
+    margin-bottom: 20px;
+    font-family: 'rubik', sans-serif;
+    font-weight: 500;
+}
+
 .detector-btn {
     background: #2563eb;
     color: #fff;

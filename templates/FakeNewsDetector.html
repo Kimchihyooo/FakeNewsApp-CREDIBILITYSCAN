@@ -110,6 +110,8 @@
 
                         {% else %}
                             <textarea id="news-input" name="news_text" class="detector-textarea" placeholder="Paste your news article text here to analyze...">{{ news_text | default('', true) }}</textarea>
+                            
+                            <div id = "word-counts" class="word-count">0 words</div>
                         {% endif %}
 
                         <button type="submit" class="detector-btn" id="btntext" style="margin-top: 20px;">Analyze</button>
@@ -263,8 +265,9 @@
             </div>
             </div>
     </div>
-    <script>
+<script>
     (function(){
+        // === 1. TAB SWITCHING LOGIC ===
         const bar = document.querySelector('.input-tab-bar');
         if(!bar) return;
         
@@ -273,12 +276,10 @@
         const videoMode = document.querySelector('.mode-video');
         const analyzeForm = document.getElementById('analyzeForm');
         
-        // !! NEW !! Get the inputs themselves
         const textInput = document.getElementById('news-input');
         const videoInput = document.getElementById('video-url');
 
         if (!textMode || !videoMode || !analyzeForm || !textInput || !videoInput) {
-            console.error("Missing critical elements for tab switching.");
             return;
         }
 
@@ -292,92 +293,112 @@
             if(mode === 'video'){
                 textMode.style.display = 'none';
                 videoMode.style.display = 'block';
-                analyzeForm.action = '/analyze-video'; // Point form to video endpoint
-                
-                // !! NEW !! Toggle required attribute
+                analyzeForm.action = '/analyze-video'; 
                 textInput.required = false;
                 videoInput.required = true;
-
-            } else { // mode === 'text'
+            } else { 
                 textMode.style.display = 'block';
                 videoMode.style.display = 'none';
-                analyzeForm.action = '/analyze'; // Point form back to text endpoint
-
-                // !! NEW !! Toggle required attribute
+                analyzeForm.action = '/analyze'; 
                 textInput.required = true;
                 videoInput.required = false;
             }
         }
 
         tabs.forEach(t => t.addEventListener('click', () => setMode(t.getAttribute('data-mode'))));
-        
-        // Set default mode and required attribute on page load
         setMode('text');
         
-        // === NEW MODAL JAVASCRIPT ===
+        // === 2. HISTORY MODAL LOGIC ===
         const historyTrigger = document.getElementById('history-trigger-btn');
         const modalOverlay = document.getElementById('history-modal-overlay');
         const modalCloseBtn = document.getElementById('history-close-btn');
 
         if (historyTrigger && modalOverlay && modalCloseBtn) {
-            
-            // Function to open the modal
-            const openModal = () => {
-                modalOverlay.classList.add('modal-active');
-            };
+            const openModal = () => modalOverlay.classList.add('modal-active');
+            const closeModal = () => modalOverlay.classList.remove('modal-active');
 
-            // Function to close the modal
-            const closeModal = () => {
-                modalOverlay.classList.remove('modal-active');
-            };
-
-            // Event Listeners
             historyTrigger.addEventListener('click', openModal);
             modalCloseBtn.addEventListener('click', closeModal);
-            
-            // Close modal by clicking on the dark background
             modalOverlay.addEventListener('click', (e) => {
-                if (e.target === modalOverlay) {
-                    closeModal();
+                if (e.target === modalOverlay) closeModal();
+            });
+        }
+
+        // === 3. "ANALYZING..." BUTTON LOGIC ===
+        if (analyzeForm){
+            analyzeForm.addEventListener('submit', function(e){
+                const isTextMode = textMode.style.display !== 'none';
+                let btn; 
+                let loadingText;
+
+                if (isTextMode) {
+                    btn = document.getElementById('btntext');
+                    loadingText = "Analyzing...";
+                } else {
+                    btn = document.getElementById('btnvid');
+                    loadingText = "Analyzing Video...";
+                }
+
+                if (btn) {
+                    // Prevent submission if button is disabled via script
+                    if (btn.disabled) {
+                        e.preventDefault(); 
+                        return;
+                    }
+                    btn.innerText = loadingText;
+                    btn.style.opacity = '0.7';
+                    btn.style.pointerEvents = 'none';
+                    btn.style.cursor = 'wait';
                 }
             });
         }
-        // Analyze to Analyzing... button (TEXT)
-        if (analyzeForm){
-            analyzeForm.addEventListener('submit', function(){
-                const btn = document.getElementById('btntext');
 
-                //1.change the text to give feedback
-                btn.innerText = 'Analyzing...';
-
-                //2.Disabling the button
-                btn.style.opacity = '0.7';
-                btn.style.pointerEvents = 'none';
-                btn.style.cursor = 'wait';
-
-            });
+        // === 4. WORD COUNTER & LIMITER (UPDATED) ===
+        const textArea = document.getElementById('news-input');
+        const countDisplay = document.getElementById('word-counts');
+        const btnText = document.getElementById('btntext'); 
         
-        // Analyze Video to Analyzing Video... (VIDEO)
-        if (analyzeForm){
-            analyzeForm.addEventListener('submit', function(){
-                const btn = document.getElementById('btnvid');
-
-                //1. change the text to give feedback
-                btn.innerText = 'Analyzing Video...';
-
-                //2.Disabling the Button
-                btn.style.opacity = '0.7';
-                btn.style.pointerEvents = 'none';
-                btn.style.cursor = 'wait';
-            })
+        function updateCounter(){
+            if (!textArea || !countDisplay) return;
+            
+            const text = textArea.value.trim();
+            const count = text ? text.split(/\s+/).filter(word => word.length > 0).length : 0;
+            
+            // --- NEW LOGIC START ---
+            if (count > 250) {
+                // Too many words: Disable button
+                // CHANGE IS HERE:
+                countDisplay.innerText = count + " / 250 words (Limit exceeded)";
+                countDisplay.style.color = "#dc2626"; // Red warning color
+                
+                if(btnText) {
+                    btnText.disabled = true;
+                    btnText.style.opacity = "0.5";
+                    btnText.style.cursor = "not-allowed";
+                    btnText.title = "Text is too long (Max 250 words)";
+                }
+            } else {
+                // Count is OK: Enable button
+                // CHANGE IS HERE:
+                countDisplay.innerText = count + " / 250 words";
+                countDisplay.style.color = "#6c757d"; // Reset to gray
+                
+                if(btnText) {
+                    btnText.disabled = false;
+                    btnText.style.opacity = "1";
+                    btnText.style.cursor = "pointer";
+                    btnText.title = "";
+                }
+            }
+            // --- NEW LOGIC END ---
         }
 
-
+        if(textArea){
+            textArea.addEventListener('input', updateCounter);
+            updateCounter(); // Run immediately on load
         }
-        }
-        // === END OF MODAL JAVASCRIPT ===
 
-    )();
-    </script>
+    })();
+</script>
 </body>
 </html>

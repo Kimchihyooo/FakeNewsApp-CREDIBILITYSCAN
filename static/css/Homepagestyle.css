@@ -20,22 +20,25 @@ body {
 }
 
 /* Navbar */
+/* Find your .navbar class and add position: relative */
 .navbar {
     height: 80px;
-    padding: 0 30px;
+    padding: 20px 30px; /* Note: Your code had two paddings; this one wins */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 100%;      /* Ensures it fills the entire page width */
-    left: 0;          /* Makes sure the fixed position spans from the left edge */
-    top: 0;      
-    padding-top: 100px;     /* Anchors it to the top */
-    padding: 20px 30px;
+    width: 100%;
+    /* left: 0; top: 0;  <-- These were doing nothing before */
+    
+    /* === ADD THIS === */
+    position: relative; 
+    /* ================ */
+    
     box-sizing: border-box;
     background-color: #ffffff;
     box-shadow: 0 30px 30px rgba(0,0,0,0.05);
-    z-index: 1000;    /* Stays above content */
+    z-index: 1000;   
 }
 
 .logo {
@@ -133,177 +136,297 @@ nav a:hover {
 /* === END HAMBURGER STYLES === */
 
 
-/* Hero Section */
+/* --- HERO SECTION LAYOUT --- */
 .hero {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 650px;
-  max-width: 100%;
-  padding-top: 50px; 
-  box-sizing: border-box;
-  background: linear-gradient(180deg, #88b2eb 0%, #fcfafa 100%);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: rgb(0, 0, 0);                   
+    display: flex; /* Enables Split Screen */
+    align-items: center; /* Vertically centers items */
+    justify-content: space-between; /* Pushes Text left, Image right */
+    padding: 80px 10%; /* More breathing room */
+    height: 90vh; /* Takes up most of the screen */
+    background: linear-gradient(180deg, #88b2eb 0%, #fcfafa 100%);
+    position: relative;
+    overflow: hidden; /* Keeps background shapes inside */
 }
 
+/* --- LEFT SIDE: TEXT --- */
 .hero-text {
-  max-width: 50%;
-  margin-left: 40px;
+    flex: 1; /* Takes 50% width */
+    z-index: 2; /* Sits above background shapes */
+    max-width: 600px;
 }
 
 .hero-text h1 {
-  font-size: 3rem;
-  line-height: 1.2;
-  color: #080505;
-  font-family: "Rubik", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 600;
-  font-style: normal;
+    font-family: 'Recoleta', sans-serif;
+    font-size: 5rem;
+    color: #f0f4ff;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    line-height: 1.1;
+    text-shadow: 2px 2px 0px #3B82F6;
 }
 
-.highlight {
-  color: #3B82F6;
-  font-family: "Recoleta", sans-serif;
-
+.hero-description {
+    font-family: 'Rubik', sans-serif;
+    font-size: 1.2rem;
+    color: #4a5568;
+    margin-bottom: 30px;
+    max-width: 450px;
 }
 
-.hero-text p {
-  font-size: 1.1rem;
-  color: #080505;
-  margin: 20px 0 40px;
-  line-height: 1.6;
-  font-family: "Rubik", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 600;
-  font-style: normal;
+/* --- TYPEWRITER EFFECT --- */
+.typewriter p {
+    font-family: 'Geo', sans-serif;
+    font-size: 1.8rem;
+    color: #2d3748;
+    overflow: hidden; /* Hides text until it types */
+    border-right: .15em solid #333; /* The cursor */
+    white-space: nowrap; /* Keeps text on one line */
+    margin: 0 0 20px 0;
+    width: 0; /* Start with 0 width */
+    animation: 
+      typing 3.5s steps(40, end) forwards, /* Type out effect */
+      blink-caret .75s step-end infinite; /* Cursor blinking */
 }
 
+/* Keyframes for Typing */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #333; }
+}
+
+/* --- RIGHT SIDE: VISUALS --- */
+.hero-visual {
+    flex: 1; /* Takes 50% width */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.floating-img {
+    width: 100%;
+    max-width: 550px; /* Limits size */
+    height: auto;
+    animation: float 6s ease-in-out infinite; /* The Floating Magic */
+}
+
+/* Keyframes for Floating */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-25px); } /* Moves up */
+    100% { transform: translateY(0px); } /* Moves down */
+}
+
+/* --- BUTTONS UPDATE --- */
 .buttons {
-  display: flex;
-  gap: 20px;
+    display: flex;
+    gap: 20px;
 }
 
 .btn {
-  padding: 14px 28px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-family: "Rubik", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 600;
-  font-style: normal;
-  font-weight: 600;
-  transition: 0.3s;
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn.primary {
-  background-color: #3B82F6;
-  color: #fff;
-}
-
-.btn.primary:hover {
-  background-color: #1d4ed8;
+    background-color: #2563eb;
+    color: white;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
 }
 
 .btn.secondary {
-  border: 2px solid #3B82F6;
-  color: #3B82F6;
-  background: none;
+    background-color: transparent;
+    border: 2px solid #2563eb;
+    color: #2563eb;
 }
 
-.btn.secondary:hover {
-  background-color: #3B82F6;
-  color: #fff;
+.btn:hover {
+    transform: translateY(-3px); /* Button lifts up on hover */
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
 }
 
-/*Header INFO section*/
-.AIdetect h1 {
-  font-size: 1.8rem;
-  font-family: "Rubik", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 800;
-  font-style: normal;
-  color: #444;
-  text-align: center;
-  line-height: 1.6;
-  margin-top: 100px;
-  text-shadow: 2px 4px 8px rgba(44, 62, 80, 0.15);
-  background: #fcfafa;
+/* --- BACKGROUND SHAPES (BLOBS) --- */
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    filter: blur(40px);
+    z-index: 1;
+    animation: float 8s infinite alternate;
 }
 
-/*Header Subsection*/
-.AIdetectsub p{
-  font-size: 1.1rem; /* Corrected from 1.1 */
-  color: #444;
-  font-optical-sizing: auto;
-  line-height: 1.6; /* Corrected from 0.1px */
-  text-shadow: 2px 4px 8px rgba(44, 62, 80, 0.15);
-  display:flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  background: #fcfafa;
-  padding: 0 20px; /* Added padding */
-
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    top: -50px;
+    right: -50px;
+    background: rgba(255, 255, 255, 0.3);
 }
 
-.card {
-  width: 320px;
-  padding: 28px 24px;
-  background: #eceef0;
-  border-radius: 18px;
-  box-shadow: 0 1px 5px rgba(12, 50, 100, 0.06);
-  font-family: "Rubik", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 600;
-  font-style: normal;
-  color: #222e3a;
-  
-  margin: 40px auto;
+.shape-2 {
+    width: 200px;
+    height: 200px;
+    bottom: 50px;
+    left: 10%;
+    background: rgba(147, 197, 253, 0.5);
 }
 
-.icon-circle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #eaf1fb;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  margin-bottom: 18px;
+/*HOW IT WORKS SECTION*/
+/* --- BEHIND THE SCENES SECTION --- */
+.bts-section {
+    padding: 80px 20px;
+    background: linear-gradient(180deg, #fcfafa 0%, #88b2eb 100%); /* Light gray background to separate from other sections */
+    overflow: hidden;
 }
 
-.icon-circle svg {
-  width: 26px;
-  height: 26px;
-  color: #3177e7;
+.bts-header {
+    text-align: center;
+    margin-bottom: 60px;
 }
 
-img{
-  height: 40px;
-  width: 40px;
-}
-/* Cards Section */
-.card-title {
-  font-weight: bold;
-  font-size: 1.2em;
-  margin-bottom: 30px;
+.bts-header h1 {
+    font-family: 'Recoleta', sans-serif;
+    font-size: 3rem;
+    color: #333;
+    margin-bottom: 10px;
 }
 
-.card-text {
-  font-size: 1em;
-  color: #556070;
-  line-height: 1.5;
+.bts-header p {
+    font-family: 'Rubik', sans-serif;
+    font-size: 1.2rem;
+    color: #666;
 }
 
-.card-row {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  padding: 110px 0;
-  background: linear-gradient(180deg, #fcfafa 0%, #88b2eb  100%); 
+.bts-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 80px; /* Space between items */
 }
+
+/* Individual Item Container */
+.bts-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    opacity: 0; /* Hidden for animation */
+    animation: fadeInSlide 1s forwards; /* Trigger animation */
+}
+
+/* Reverse layout for even items (Asymmetry) */
+.bts-item.reverse {
+    flex-direction: row-reverse;
+}
+
+/* --- VISUALS (IMAGES) --- */
+.bts-visual {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    object-fit: cover;
+}
+
+.img-placeholder {
+    width: 350px;
+    height: 350px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Placeholder Gradient */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    transition: transform 0.4s ease, border-radius 0.4s ease;
+    text-align: center;
+    padding: 20px;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+/* Hover Effect: Blob changes shape and floats */
+.bts-item:hover .img-placeholder {
+    transform: translateY(-10px) scale(1.02);
+    border-radius: 50% !important; /* Morphs into a circle on hover */
+}
+
+/* --- CONTENT (TEXT) --- */
+.bts-content {
+    flex: 1;
+    font-family: 'Rubik', sans-serif;
+}
+
+.bts-content h2 {
+    font-family: 'Recoleta', sans-serif;
+    font-size: 3rem;
+    color: #f0f4ff; /* Subtle numbering color */
+    text-shadow: 2px 2px 0px #3B82F6;
+    margin: 0;
+    line-height: 1;
+}
+
+.bts-content h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    color: #333;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+.bts-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* --- ANIMATION KEYFRAMES --- */
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stagger animations for each child so they don't load all at once */
+.bts-item:nth-child(1) { animation-delay: 0.2s; }
+.bts-item:nth-child(2) { animation-delay: 0.4s; }
+.bts-item:nth-child(3) { animation-delay: 0.6s; }
+.bts-item:nth-child(4) { animation-delay: 0.8s; }
+.bts-item:nth-child(5) { animation-delay: 1.0s; }
+.bts-item:nth-child(6) { animation-delay: 1.2s; }
+
+/* --- RESPONSIVE DESIGN (MOBILE) --- */
+@media (max-width: 768px) {
+    .bts-item, .bts-item.reverse {
+        flex-direction: column; /* Stack everything vertically on mobile */
+        text-align: center;
+    }
+    
+    .img-placeholder {
+        width: 280px;
+        height: 280px;
+    }
+
+    .bts-header h1 {
+        font-size: 2.2rem;
+    }
+}
+
+
 
 
 /* =================================== */
@@ -334,14 +457,22 @@ img{
     /* Hide nav menu by default */
     .nav-menu {
         display: none;
-        width: 100%; /* Take full width */
+        
+        /* === CHANGE THESE === */
+        position: absolute;      /* Take it out of the normal flow */
+        top: 100%;               /* Position it exactly at the bottom of the navbar */
+        left: 0;
+        width: 100%;
+        z-index: 999;            /* Ensure it stays on top of everything */
+        /* ==================== */
+
         flex-direction: column;
         align-items: center;
-        background-color: #ffffff; /* Add background */
-        /* Position it below the logo/hamburger row */
-        order: 3; /* Places it at the end of the flex items */
+        background-color: #ffffff;
+        
+        /* order: 3; <-- You can remove this, absolute positioning overrides flex order */
+        
         padding-top: 10px;
-        /* Add shadow to separate from content */
         box-shadow: 0 20px 20px -10px rgba(0,0,0,0.05); 
     }
 
@@ -367,83 +498,26 @@ img{
         margin-left: 0; /* Reset desktop margin */
     }
 
-  /* --- Hero Section --- */
   .hero {
-    flex-direction: column;
-    justify-content: center;
-    height: auto;
-    padding: 100px 20px 60px; 
-    text-align: center;
-    margin-top: 20;
-  }
+        flex-direction: column-reverse; /* Stack image on top, text below */
+        text-align: center;
+        height: auto;
+        padding-top: 100px;
+    }
 
-  .hero-text {
-    max-width: 100%;
-    margin-left: 0;
-  }
+    .hero-text {
+        margin-top: 30px;
+    }
+    
+    .typewriter p {
+        white-space: normal; /* Allow text wrapping on mobile */
+        border: none; /* Remove cursor on mobile if it breaks lines */
+        width: auto;
+        animation: none; /* Remove typing animation on mobile for safety */
+    }
 
-  .hero-text h1 {
-    font-size: 2.2rem;
-  }
-
-  .hero-text p {
-    font-size: 1rem;
-  }
-
-  .buttons {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
-
-  .btn {
-    width: 80%;
-  }
-
-  /* --- Info Section --- */
-  .AIdetect h1 {
-    font-size: 1.5rem;
-    padding: 0 20px;
-  }
-  
-  .AIdetectsub p {
-    font-size: 1rem;
-    padding: 0 20px;
-    text-align: center;
-    line-height: 1.5;
-  }
-  
-  /* --- Cards Section --- */
-  .card-row {
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-top: 0;
-    padding-top: 60px;
-    gap: 30px;
-  }
-
-  .card {
-    width: 90%;
-    flex-wrap: wrap;
-  }
-
-  /* --- Developers Section --- */
-  .Abt h1 {
-    text-align: center;
-  }
-  
-  .AbtdevelopersContainer {
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 10px 30px;
-  }
-
-  /* --- Footer --- */
-  .FooterNav ul {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
+    .buttons {
+        justify-content: center;
+    }
 
 }

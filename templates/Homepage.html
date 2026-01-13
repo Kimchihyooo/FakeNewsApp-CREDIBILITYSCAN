@@ -26,7 +26,7 @@
       <div class="bordernav">
         <a href="/">Home</a>
         <a href="detector">Detector</a>
-        <a href="about">About Us</a>
+        <a href="about">How to Use?</a>
       </div>
     </nav>
   </header>
@@ -34,55 +34,107 @@
 
   <!-- Hero Section-->
   <section class="hero">
-    <div class="hero-text">
-      <h1>
-        <span class="highlight">CredibilityScan</span><br>
-        
-      </h1>
-      
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
 
-      <div class="buttons">
-        <a href="/detector" class="btn primary">Try Detector Now</a>
-        <a href="/about" class="btn secondary">Learn More</a>
+  <div class="hero-text">
+    <h1>CredibilityScan</h1>
+    
+    <div class="typewriter">
+      <p>Smart News Verification for the Digital Age.</p>
+    </div>
+
+
+    <div class="buttons">
+      <a href="/detector" class="btn primary">Try Detector Now</a>
+      <a href="/about" class="btn secondary">Learn More</a>
+    </div>
+  </div>
+
+</section>
+    
+<section class="bts-section">
+  <div class="bts-header">
+    <h1>How CredibilityScan Works?</h1>
+    <p>How CredibilityScan acts as your digital detective to spot fake news.</p>
+  </div>
+
+  <div class="bts-container">
+    
+    <div class="bts-item">
+      <div class="bts-visual">
+        <img src="../static/homepagepics/1.png" class="img-placeholder" style="border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;">
+        </div>
+      <div class="bts-content">
+        <h2>01. The Super Readers</h2>
+        <h3>Text Analysis</h3>
+        <p><strong>The Problem:</strong> Sometimes people write stories that aren't true.</p>
+        <p><strong>The Solution:</strong> We have two digital assistants named <strong>English RoBERTa</strong> and <strong>Tagalog RoBERTa</strong>. They read every single word in the blink of an eye to understand the "feeling" of the story—whether it sounds like real news or a made-up lie.</p>
       </div>
     </div>
-  </section>
 
-  <!--HOW CREDIBILITYSCAN  -->
+    <div class="bts-item reverse">
+      <div class="bts-visual">
+        <img src="../static/homepagepics/2.png" class="img-placeholder" style="border-radius: 64% 36% 29% 71% / 66% 69% 31% 34%;">
+      </div>
+      <div class="bts-content">
+        <h2>02. The Voting Team</h2>
+        <h3>Random Forest Model</h3>
+        <p><strong>The Problem:</strong> One opinion isn't enough.</p>
+        <p><strong>The Solution:</strong> We use a <strong>Random Forest</strong>. Imagine a room filled with hundreds of tiny experts. Each one looks at a small piece of the story and votes: "Real" or "Fake". If the majority says "Fake," we warn you!</p>
+      </div>
+    </div>
 
-    <div class = "AIdetect"><h1>How CredibilityScan Assesses News Credibility</h1></div>
-    <div class = "AIdetectsub"><p> “From classification to verified evidence — CredibilityScan helps you identify trustworthy information in seconds.”</p></div>
-    
-  <!--INFORCARDS  -->
-  <div class="card-row">
-  <div class="card">
-    <div class="icon-circle">
-      <img src="../static/iCONS/percentage.png">
+    <div class="bts-item">
+      <div class="bts-visual">
+        <img src="../static/homepagepics/3.png" class="img-placeholder" style="border-radius: 26% 74% 53% 47% / 37% 33% 67% 63%;">
+      </div>
+      <div class="bts-content">
+        <h2>03. The Face Checker</h2>
+        <h3>Deepfake Detection</h3>
+        <p><strong>The Problem:</strong> Videos can be edited to make people say things they never said.</p>
+        <p><strong>The Solution:</strong> We use <strong>YOLOv8</strong> (The Spotter) to find faces and <strong>MesoNet</strong> (The Inspector) to look at tiny pixels. If the skin looks blurry or the lighting is weird, we know it's a trick.</p>
+      </div>
     </div>
-      <div class="card-title">Credibility Scoring</div>
-    <div class="card-text">
-      Using the Random Forest classification algorithm, the system computes a credibility score ranging from 0% to 100%, reflecting the reliability level of the article.
+
+    <div class="bts-item reverse">
+      <div class="bts-visual">
+        <img src="../static/homepagepics/4.png" class="img-placeholder"style="border-radius: 73% 27% 35% 65% / 62% 44% 56% 38%;"> 
+      </div>
+      <div class="bts-content">
+        <h2>04. The Super Listener</h2>
+        <h3>Speech-to-Text</h3>
+        <p><strong>The Problem:</strong> What if the fake news is spoken, not written?</p>
+        <p><strong>The Solution:</strong> We use a tool called <strong>Whisper</strong>. It acts like a court stenographer, listening to the video and typing out exactly what is said so our Super Readers can analyze it.</p>
+      </div>
     </div>
+
+    <div class="bts-item">
+      <div class="bts-visual">
+        <img src="../static/homepagepics/5.png" class="img-placeholder" style="border-radius: 41% 59% 29% 71% / 66% 33% 67% 34%;">
+      </div>
+      <div class="bts-content">
+        <h2>05. The Magic Highlighter</h2>
+        <h3>Explainable AI (LIME)</h3>
+        <p><strong>The Problem:</strong> You need to know <em>why</em> something is fake.</p>
+        <p><strong>The Solution:</strong> We use <strong>LIME</strong>. It's like a magic highlighter. We highlight suspicious words in <span style="color: #e74c3c; font-weight:bold;">Red</span>, so you can see the proof yourself.</p>
+      </div>
+    </div>
+
+    <div class="bts-item reverse">
+      <div class="bts-visual">
+        <img src="../static/homepagepics/6.png" class="img-placeholder" style="border-radius: 64% 36% 67% 33% / 37% 76% 24% 63%;">
+      </div>
+      <div class="bts-content">
+        <h2>06. The Librarian</h2>
+        <h3>Cross-Referencing</h3>
+        <p><strong>The Problem:</strong> Is anyone else reporting this?</p>
+        <p><strong>The Solution:</strong> We check the "Library" using <strong>Google Search</strong>. We look for your story on trusted news websites. If trusted sources are telling the same story, it’s likely true.</p>
+      </div>
+    </div>
+
   </div>
-  <div class="card">
-    <div class="icon-circle">
-      <img src="../static/iCONS/ml-model.png">
-    </div>
-      <div class="card-title">Machine Learning Classification</div>
-    <div class="card-text">
-      The Random Forest model classifies online news as Real or Fake. This automated classification allows for consistent and scalable credibility assessment.
-    </div>
-  </div>
-  <div class="card">
-    <div class="icon-circle">
-      <img src="../static/iCONS/research.png">
-    </div>
-    <div class="card-title">Cross-Referencing</div>
-    <div class="card-text">
-      The system conducts automated cross-referencing by comparing extracted claims and keywords from the submitted article against Reputable Philippine news online sources.
-    </div>
-  </div>
-  </div>
+</section>
   
 
 </body>

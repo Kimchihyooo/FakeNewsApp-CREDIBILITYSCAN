@@ -8,17 +8,37 @@
     <link rel="stylesheet" href="../static/css/FakeNewsDetectorStyle.CSS" />
     
     <link href="https://fonts.googleapis.com/css2?family=Geo:ital@0;1&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+    
     <style>
-        /* Simple style for video error box */
-        .video-error-box {
-            background-color: #fee2e2;
-            color: #b91c1c;
-            border: 1px solid #fca5a5;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 20px;
+        /* === INTERNAL STYLES (Helpers for dynamic content) === */
+        
+        /* 1. LIME Highlight Classes (Used by Python to color text) */
+        .lime-good {
+            background-color: #dcfce7; /* Light Green */
+            color: #166534;
+            border-radius: 3px;
+            padding: 1px 2px;
+            font-weight: bold;
         }
-        /* Style for transcription box */
+        .lime-bad {
+            background-color: #fee2e2; /* Light Red */
+            color: #991b1b;
+            border-radius: 3px;
+            padding: 1px 2px;
+            font-weight: bold;
+        }
+
+        /* 2. States for the Result Area */
+        #results-area {
+            display: none; /* Hidden by default until analysis finishes */
+        }
+        .placeholder-state {
+            text-align: center;
+            color: #6b7280;
+            padding: 40px;
+        }
+        
+        /* 3. Helper for Transcription Box (Video) */
         .transcription-box {
             max-height: 150px; 
             overflow-y: auto; 
@@ -27,37 +47,7 @@
             border-radius: 8px;
             border: 1px solid #e9ecef;
             font-family: monospace;
-            font-size: 0.9rem;
-            color: #343a40;
-            line-height: 1.5;
-            margin-top: 8px;
         }
-        /* ===== PASTE THE NEW CSS RULES HERE ===== */
-        .lime-good {
-            background-color: #dcfce7; /* Light green */
-            color: #166534; /* Dark green */
-            border-radius: 3px;
-            padding: 1px 2px;
-        }
-        .lime-bad {
-            background-color: #fee2e2; /* Light red */
-            color: #991b1b; /* Dark red */
-            border-radius: 3px;
-            padding: 1px 2px;
-        }
-        /* Style for the 'Analyze new' link */
-        .clear-analysis-link {
-            display: inline-block;
-            margin-top: 12px;
-            font-size: 0.9rem;
-            color: #2563eb;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .clear-analysis-link:hover {
-            text-decoration: underline;
-        }
-        /* ========================================= */
     </style>
 </head>
 <body>
@@ -80,271 +70,172 @@
     </header>
 
     <div class="detector-container">
-    
         <div class="main-content-wrapper">
 
             <div class="input-column">
+                
                 <div class="input-tab-bar" role="tablist" aria-label="Input mode tabs">
-                    <button class="tab tab-active" data-mode="text" type="button" aria-selected="true">Text</button>
-                    <button class="tab" data-mode="video" type="button" aria-selected="false">Video</button>
+                    <button id="tab-text" class="tab tab-active" data-mode="text" type="button">Text</button>
+                    <button id="tab-video" class="tab" data-mode="video" type="button">Video</button>
                 </div>
 
-                <form action="/analyze" method="post" class="form" id="analyzeForm">
+                <form id="analyzeForm" class="form">
+                    
                     <div class="mode mode-text">
-
-                        {% if lime_html %}
-                            <div id="lime-highlight-box" class="detector-textarea" style="overflow-y: auto; line-height: 1.6;">
-                                {{ lime_html | safe }}
-                            </div>
-                            <textarea id="news-input" name="news_text" style="display:none;">{{ news_text }}</textarea>
-
-                            <div class="legend-box">
-                                <h4>What the Colors Mean</h4>
-                                <div class="legend-item">
-                                    <div class="legend-color-box legend-bad"></div>
-                                    <span>= Words often associates with FAKE news.</span>
-                                </div>
-                            </div>
-
-                            <a href="/detector" class="clear-analysis-link">Analyze another article</a>
-
-                        {% else %}
-                            <textarea id="news-input" name="news_text" class="detector-textarea" placeholder="Paste your news article text here to analyze...">{{ news_text | default('', true) }}</textarea>
-                        {% endif %}
-
-                        <button type="submit" class="detector-btn" style="margin-top: 20px;">Analyze</button>
-
+                        <textarea id="userInput" name="news_text" class="detector-textarea" 
+                            placeholder="Paste your news article text here to analyze..." required></textarea>
                     </div>
                 
                     <div class="mode mode-video" style="display:none;">
-                        <label for="video-url" class="detector-label">Video</label>
-                        <input id="video-url" name="video_url" type="url" class="detector-textarea" placeholder="https://www.youtube.com/watch?v=..." />
-                        <div id="videoPreview" class="video-preview" aria-live="polite"></div>
-
-                        {% if transcribed_text %}
-                        <div style="margin-top: 16px;">
-                            <h3 style="font-family: 'Rubik', sans-serif; font-weight: 600; margin-bottom: 8px; font-size: 0.95rem;">Transcription</h3>
-                            <div class="transcription-box">
-                                {{ transcribed_text }}
-                            </div>
-                        </div>
-                        {% endif %}
-                        <button type="submit" class="detector-btn">Analyze Video</button>
+                        <label for="video-url" class="detector-label">Video URL</label>
+                        <input id="videoUrlInput" name="video_url" type="url" class="detector-textarea" 
+                            placeholder="https://www.youtube.com/watch?v=..." />
                     </div>
+
+                    <button type="submit" class="detector-btn" style="margin-top: 20px;">Analyze</button>
+                    
+                    <div id="loading" style="display:none; text-align:center; margin-top:10px;">
+                        <span>Analyzing... Please wait.</span>
+                    </div>
+
                 </form>
-            </div> <div class="results-column">
+            </div> 
+
+            <div class="results-column">
 
                 <button type="button" class="history-trigger-btn" id="history-trigger-btn">
                     View Recent Analysis
                 </button>
-                {% if video_error %}
-                <div class="video-error-box">
-                    <strong>Video Analysis Failed:</strong>
-                    <p>{{ video_error }}</p>
-                </div>
-                {% endif %}
 
-                {% if video_analysis %}
-                    {% if video_analysis.label == 'Likely Real' %}
-                    <div class="classification" style="background-color: #f0fdf4; border-left-color: #22c55e; color: #166534;">
-                        Deepfake Detection: <strong>{{ video_analysis.label }}</strong>
-                        (Confidence: {{ "%.0f"|format(video_analysis.confidence * 100) }}%)
-                    </div>
-                {% else %}
-                    <div class="classification" style="background-color: #fee2e2; border-left-color: #ad2d2d; color: #b91c1c;">
-                        Deepfake Detection: <strong>{{ video_analysis.label }}</strong>
-                        (Confidence: {{ "%.0f"|format(video_analysis.confidence * 100) }}%)
-                    </div>
-                {% endif %}
-            {% endif %}
-
-            {% if classification_text %}
-                <div class="results-content" style="color: {{ colors.text_color }};">
-                    
-                    <h2 style="font-family: 'Rubik', sans-serif; font-weight: 600; margin-top: 0;">
-                        {% if video_analysis %}
-                            Transcribed Text Analysis
-                        {% else %}
-                            Text Analysis
-                        {% endif %}
-                    </h2>
-
-                    <div class="score-box" id="scoreBox" style="background-color: {{ colors.bg_color }}; color: {{ colors.text_color }}; padding-top: 24px; padding-bottom: 24px;">
-                        <h3 class="score" id="scoreLabel" style="font-size: 2.25rem; margin-bottom: 8px;">{{ score_label }}</h3>
-                        
-                        {% if score_label == "High Credibility" %}
-                            <p style="font-size: 1rem;"><strong>Verdict:</strong> Reliable</p>
-                        {% elif score_label == "Uncertain" %}
-                            <p style="font-size: 1rem;"><strong>Verdict:</strong> Mixed Signals</p>
-                        {% else %}
-                            <p style="font-size: 1rem;"><strong>Verdict:</strong> Likely Unreliable</p>
-                        {% endif %}
-                    </div>
-
-                    <div class="classification" id="classifications" style="background-color: {{ colors.bg_color }}; border-left-color: {{ colors.accent_color }};">
-                        Most Likely <strong>{{ classification_text }}</strong><br>
-                        Confidence: {{ model_confidence }}%
-                    </div>
-
-                    <div class="sources">
-                        <h3>Supporting Sources</h3>
-                        {% if supporting_articles %}
-                            {% for article in supporting_articles %}
-                            <div class="source-item">
-                                <a href="{{ article.link }}" target="_blank" class="source-title">
-                                    {{ article.title }}
-                                </a>
-                                <p class="source-link"><strong>{{ article.displayLink }}</strong></p>
-                                <p class="source-snippet">{{ article.snippet }}</p>
-                            </div>
-                            {% endfor %}
-                        {% else %}
-                            <div class="source-item">
-                                <p>No supporting articles were found for this article.</p>
-                            </div>
-                        {% endif %}
-                    </div>
-                    
-                    <div class="details">
-
-                        {% if score_label == "Low Credibility" %}
-                            <p>This article most likely not <strong>reliable</strong>. The model's analysis of the text (its style, phrasing, and structure) strongly resembles patterns found in known false information.</p>
-                        
-                        
-                        {% elif score_label == "Uncertain" %}
-                            <p>This article has an <strong>uncertain</strong> score, indicating mixed signals. Here's the breakdown:</p>
-                            <ul>
-                                <li>The model classified the text's content as <strong>{{ classification_text }}</strong>.</li>
-                                <li>The external cross-reference check found <strong>{{ supporting_articles|length }} supporting article(s)</strong>.</li>
-                            </ul>
-                            <p>An 'Uncertain' score occurs when the model's linguistic analysis (which classified the text as 'Real') is not supported by external sources.</p>
-
-                        {% elif score_label == "Credible" %}
-                            <p>This article is <strong>credible</strong>. This assessment is based on two key factors:</p>
-                            <ul>
-                                <li>The model's linguistic analysis classified the text as <strong>{{ classification_text }}</strong>.</li>
-                                <li>An external cross-reference check confirmed this by finding <strong>{{ supporting_articles|length }} supporting article(s)</strong> from other reputable sources.</li>
-                            </ul>
-                            <p>This combination of a positive model analysis and strong external verification suggests the information is reliable.</p>
-                        
-                        {% endif %}
-                    </div>
-                </div>
-
-            {% elif not video_error %}
-                <div class="results-placeholder">
-                    <h3>Results will appear here</h3>
+                <div id="results-placeholder" class="placeholder-state">
+                    <h3>Ready to Scan</h3>
                     <p>Enter your text or video URL on the left and click "Analyze" to see the credibility assessment.</p>
                 </div>
-            {% endif %}
-            
-            </div> </div> </div> <div class="modal-overlay" id="history-modal-overlay">
+
+                <div id="results-area">
+                    
+                    <div class="results-content">
+                        <h2 style="font-family: 'Rubik', sans-serif; font-weight: 600; margin-top: 0;">Analysis Result</h2>
+
+                        <div class="score-box" style="padding: 24px; background-color: #f8f9fa; border-radius: 8px; margin-bottom: 20px;">
+                            <h3 id="verdict-label" style="font-size: 2.25rem; margin-bottom: 8px; color: #333;">--</h3>
+                        </div>
+
+                        <div class="classification" style="border-left: 5px solid #ccc; background-color: #f0f0f0; padding: 10px;">
+                            Most Likely <strong id="classification-text">--</strong><br>
+                            Confidence: <span id="confidence-score">0%</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <h3>Text Analysis Highlights</h3>
+                        
+                        <div id="result-container" class="detector-textarea" style="overflow-y: auto; line-height: 1.6; height: auto; min-height: 200px; background: white; border: 1px solid #ddd;">
+                            </div>
+                        
+                        <div class="legend-box" style="margin-top: 10px; font-size: 0.9rem;">
+                            <div style="display:flex; align-items:center; gap: 8px;">
+                                <div class="lime-bad" style="width: 20px; height: 20px; display:inline-block;"></div>
+                                <span>= Words often associated with Fake News</span>
+                            </div>
+                            <div style="display:flex; align-items:center; gap: 8px; margin-top: 5px;">
+                                <div class="lime-good" style="width: 20px; height: 20px; display:inline-block;"></div>
+                                <span>= Words often associated with Real News</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sources" style="margin-top: 20px;">
+                        <h3>Supporting Sources</h3>
+                        <div id="sources-list">
+                            </div>
+                    </div>
+
+                </div> </div> 
+        </div> 
+    </div> 
+
+    <div class="modal-overlay" id="history-modal-overlay">
         <div class="modal-content">
-            
             <div class="history-container">
-                <div class="modal-header">
-                    <h3>Recent Analysis</h3>
-                    <button class="modal-close-btn" id="history-close-btn">&times;</button>
+                <div class="modal-header" style="flex-direction: column; align-items: stretch; gap: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3>Recent Analysis</h3>
+                        <button class="modal-close-btn" id="history-close-btn">&times;</button>
+                    </div>
+                    
+                    <div style="display: flex; gap: 8px;">
+                        <select id="history-filter-select" style="padding: 10px; border: 1px solid #ddd; border-radius: 6px; background: #f8f9fa; cursor: pointer; font-family: 'Rubik', sans-serif;">
+                            <option value="all">All History</option>
+                            <option value="saved">⭐ Saved / Favorites</option>
+                            <option value="real">Verdicts: Real / Credible</option>
+                            <option value="fake">Verdicts: Fake / Low Credibility</option>
+                            <option value="uncertain">Verdicts: Uncertain</option>
+                            <option value="text">Type: Text Articles</option>
+                            <option value="video">Type: Videos</option>
+                        </select>
+
+                        <input type="text" id="history-search-input" placeholder="Search keywords..." 
+                            style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: 'Rubik', sans-serif;">
+                    </div>
                 </div>
                 
-                {% if recent %}  
-                    <ul class="history-list">
-                        {% for item in recent %}
-                            <li class="history-item">
-                                <span class="history-type history-type-{{ item.type | lower }}">{{ item.type }}</span>
-                                <p class="history-summary">{{ item.summary }}</p>
-                                <span class="history-verdict">{{ item.verdict }}</span>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p class="history-empty">Your analysis history will appear here.</p>
-                {% endif %} 
+                <div id="history-list" class="history-list">
+                    <p class="history-empty">No history yet.</p>
+                </div>
             </div>
-            </div>
+        </div>
     </div>
+
     <script>
     (function(){
-        const bar = document.querySelector('.input-tab-bar');
-        if(!bar) return;
-        
-        const tabs = Array.from(bar.querySelectorAll('.tab'));
+        // --- TAB SWITCHING LOGIC ---
+        const tabs = document.querySelectorAll('.tab');
         const textMode = document.querySelector('.mode-text');
         const videoMode = document.querySelector('.mode-video');
-        const analyzeForm = document.getElementById('analyzeForm');
-        
-        // !! NEW !! Get the inputs themselves
-        const textInput = document.getElementById('news-input');
-        const videoInput = document.getElementById('video-url');
-
-        if (!textMode || !videoMode || !analyzeForm || !textInput || !videoInput) {
-            console.error("Missing critical elements for tab switching.");
-            return;
-        }
+        const textInput = document.getElementById('userInput');
+        const videoInput = document.getElementById('videoUrlInput');
 
         function setMode(mode){
+            // Highlight active tab
             tabs.forEach(t => {
-                const active = t.getAttribute('data-mode') === mode;
-                t.classList.toggle('tab-active', active);
-                t.setAttribute('aria-selected', active ? 'true' : 'false');
+                t.classList.toggle('tab-active', t.dataset.mode === mode);
             });
             
+            // Show/Hide Inputs
             if(mode === 'video'){
                 textMode.style.display = 'none';
                 videoMode.style.display = 'block';
-                analyzeForm.action = '/analyze-video'; // Point form to video endpoint
-                
-                // !! NEW !! Toggle required attribute
-                textInput.required = false;
-                videoInput.required = true;
-
-            } else { // mode === 'text'
+                // Toggle 'required' to prevent form error on hidden fields
+                if(textInput) textInput.required = false;
+                if(videoInput) videoInput.required = true;
+            } else {
                 textMode.style.display = 'block';
                 videoMode.style.display = 'none';
-                analyzeForm.action = '/analyze'; // Point form back to text endpoint
-
-                // !! NEW !! Toggle required attribute
-                textInput.required = true;
-                videoInput.required = false;
+                if(textInput) textInput.required = true;
+                if(videoInput) videoInput.required = false;
             }
         }
 
-        tabs.forEach(t => t.addEventListener('click', () => setMode(t.getAttribute('data-mode'))));
+        // Attach Click Events
+        tabs.forEach(t => t.addEventListener('click', () => setMode(t.dataset.mode)));
+
+        // --- MODAL TOGGLE LOGIC ---
+        const modal = document.getElementById('history-modal-overlay');
+        const btn = document.getElementById('history-trigger-btn');
+        const close = document.getElementById('history-close-btn');
+
+        if(btn) btn.onclick = () => modal.classList.add('modal-active');
+        if(close) close.onclick = () => modal.classList.remove('modal-active');
         
-        // Set default mode and required attribute on page load
-        setMode('text');
-        
-        // === NEW MODAL JAVASCRIPT ===
-        const historyTrigger = document.getElementById('history-trigger-btn');
-        const modalOverlay = document.getElementById('history-modal-overlay');
-        const modalCloseBtn = document.getElementById('history-close-btn');
-
-        if (historyTrigger && modalOverlay && modalCloseBtn) {
-            
-            // Function to open the modal
-            const openModal = () => {
-                modalOverlay.classList.add('modal-active');
-            };
-
-            // Function to close the modal
-            const closeModal = () => {
-                modalOverlay.classList.remove('modal-active');
-            };
-
-            // Event Listeners
-            historyTrigger.addEventListener('click', openModal);
-            modalCloseBtn.addEventListener('click', closeModal);
-            
-            // Close modal by clicking on the dark background
-            modalOverlay.addEventListener('click', (e) => {
-                if (e.target === modalOverlay) {
-                    closeModal();
-                }
-            });
+        // Close when clicking outside the box
+        window.onclick = (e) => {
+            if (e.target == modal) modal.classList.remove('modal-active');
         }
-        // === END OF MODAL JAVASCRIPT ===
-
     })();
     </script>
+
+    <script src="/static/js/main.js"></script>
+
 </body>
 </html>

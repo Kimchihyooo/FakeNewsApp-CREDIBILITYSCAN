@@ -676,3 +676,108 @@ input[type="url"].detector-textarea {
 .modal-content .history-empty {
     margin: 24px; /* Add margin to the empty message */
 }
+
+/* ========================================= */
+/* === TIME MACHINE & INTERACTIVITY ADD-ONS === */
+/* ========================================= */
+
+/* 1. Make History Items feel "Clickable" */
+.history-item {
+    cursor: pointer; /* Shows the hand icon */
+    transition: all 0.2s ease;
+}
+
+.history-item:hover {
+    background-color: #e9ecef; /* Slightly darker grey on hover */
+    border-color: #ced4da;
+    transform: translateX(5px); /* Slide slightly right */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* 2. Source Link Hover Effects */
+.source-item {
+    transition: background-color 0.2s ease;
+}
+
+.source-item:hover {
+    background-color: #f1f5f9; /* Light highlight when hovering a source */
+}
+
+/* 3. Smooth "Fade In" for Results */
+/* This makes the result slide up instead of popping in abruptly */
+#results-area {
+    display: none; /* JS handles the display toggle */
+    animation: slideUpFade 0.5s ease-out forwards;
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Starts 20px lower */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Ends in place */
+    }
+}
+
+/* === HISTORY ACTION BUTTONS === */
+
+.history-actions {
+    opacity: 0.6; /* Dimmed by default */
+    transition: opacity 0.2s;
+}
+
+.history-item:hover .history-actions {
+    opacity: 1; /* Fully visible on hover */
+}
+
+.action-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: 'Rubik', sans-serif;
+    transition: background 0.2s;
+}
+
+/* Save / Favorite Button Styles */
+.star-inactive {
+    color: #6c757d;
+}
+.star-inactive:hover {
+    background-color: #e9ecef;
+    color: #f59e0b; /* Turn yellow on hover */
+}
+
+.star-active {
+    color: #f59e0b; /* Gold color */
+    background-color: #fffbeb;
+    font-weight: 600;
+}
+
+/* Delete Button Styles */
+.delete-btn {
+    color: #ef4444; /* Red */
+}
+.delete-btn:hover {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+/* Add to bottom of your CSS */
+
+.delete-disabled {
+    color: #ccc !important; /* Gray text */
+    cursor: not-allowed !important; /* Show 'stop' cursor */
+}
+
+.delete-disabled:hover {
+    background: none !important; /* No hover effect */
+    color: #ccc !important;
+}

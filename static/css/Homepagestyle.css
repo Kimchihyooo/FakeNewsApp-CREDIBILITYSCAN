@@ -339,7 +339,6 @@ nav a:hover {
 .img-placeholder {
     width: 350px;
     height: 350px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Placeholder Gradient */
     display: flex;
     align-items: center;
     justify-content: center;

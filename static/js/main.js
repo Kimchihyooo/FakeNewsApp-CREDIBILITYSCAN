@@ -65,10 +65,10 @@ if (form) {
         const formData = new FormData(form);
 
         try {
-            const response = await fetch('/analyze', {
-                method: 'POST',
-                body: formData
-            });
+            const response = await fetch(form.getAttribute('action'), {
+            method: 'POST',
+            body: formData
+        });
 
             if (!response.ok) throw new Error("Network response was not ok");
 

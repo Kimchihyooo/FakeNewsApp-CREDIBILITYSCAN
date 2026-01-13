@@ -108,7 +108,7 @@ if (form) {
 }
 
 // =========================================================
-// 3. DISPLAY RESULTS
+// 3. DISPLAY RESULTS (Updated with Progress Bar)
 // =========================================================
 function displayAnalysis(data) {
     document.getElementById('results-placeholder').style.display = 'none';
@@ -119,6 +119,19 @@ function displayAnalysis(data) {
     
     document.getElementById('classification-text').innerText = data.classification_text;
     document.getElementById('confidence-score').innerText = data.model_confidence + "%";
+
+    // --- NEW: Update Progress Bar ---
+    const progressBar = document.getElementById('confidence-bar');
+    if (progressBar) {
+        // Reset width to 0 first to force animation on new searches
+        progressBar.style.width = '0%';
+        
+        // Small delay to allow the browser to register the reset, then animate to target
+        setTimeout(() => {
+            progressBar.style.width = data.model_confidence + "%";
+        }, 100);
+    }
+    // -------------------------------
 
     if (data.colors) {
         const scoreBox = document.getElementById('scoreBox');
@@ -131,9 +144,14 @@ function displayAnalysis(data) {
         classBox.style.backgroundColor = data.colors.bg_color;
         classBox.style.borderLeft = `5px solid ${data.colors.accent_color}`;
         classBox.style.color = data.colors.text_color;
+
+        // Apply color to the progress bar too!
+        if (progressBar) {
+            progressBar.style.backgroundColor = data.colors.text_color; // e.g. Dark Red or Dark Green
+        }
     }
 
-    // This renders the Influential Sentences (Red highlights) we built previously
+    // Influential Sentences / LIME Highlights
     const highlightBox = document.getElementById('result-container');
     if (data.lime_html) {
         highlightBox.innerHTML = data.lime_html;
@@ -165,7 +183,6 @@ function displayAnalysis(data) {
         sourcesList.innerHTML = '<p class="text-muted">No supporting articles found.</p>';
     }
 }
-
 // =========================================================
 // 4. ADD TO HISTORY
 // =========================================================

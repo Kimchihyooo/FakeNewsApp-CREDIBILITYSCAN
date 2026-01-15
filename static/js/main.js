@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // =========================================================
-// 2. FORM SUBMIT (Highlighter Animation + Timer)
+// 2. FORM SUBMIT (Updated to catch and show errors)
 // =========================================================
 const form = document.getElementById('analyzeForm');
 if (form) {
@@ -27,6 +27,7 @@ if (form) {
         const textInput = document.getElementById('userInput'); 
         const timerDisplay = document.getElementById('timer-display');
         
+        // Determine which button was clicked/active
         let activeBtn = btnText;
         if (btnVid && btnVid.offsetParent !== null) {
             activeBtn = btnVid;
@@ -39,13 +40,13 @@ if (form) {
 
         // 1. Change Button State
         if (activeBtn) {
-            activeBtn.innerText = "Analyzing..."; // Changed text to match effect
+            activeBtn.innerText = "Analyzing..."; 
             activeBtn.disabled = true;
             activeBtn.style.opacity = "0.7";
             activeBtn.style.cursor = "wait";
         }
 
-        // 2. Trigger Highlighter Animation
+        // 2. Trigger Highlighter
         if (textInput) {
             textInput.classList.add('scanning'); 
         }
@@ -54,11 +55,11 @@ if (form) {
         if (timerDisplay) {
             timerDisplay.style.display = 'block';
             timerDisplay.style.color = '#666'; 
-            timerDisplay.innerText = "Reading content: 0.00s";
+            timerDisplay.innerText = "Processing content: 0.00s";
             
             timerInterval = setInterval(() => {
                 const elapsed = (Date.now() - startTime) / 1000;
-                timerDisplay.innerText = `Reading content: ${elapsed.toFixed(2)}s`;
+                timerDisplay.innerText = `Processing content: ${elapsed.toFixed(2)}s`;
             }, 50); 
         }
 
@@ -66,32 +67,48 @@ if (form) {
 
         try {
             const response = await fetch(form.getAttribute('action'), {
-            method: 'POST',
-            body: formData
-        });
+                method: 'POST',
+                body: formData
+            });
 
-            if (!response.ok) throw new Error("Network response was not ok");
+            // --- ERROR CATCHING LOGIC ---
+            if (!response.ok) {
+                let errorMessage = "An unknown error occurred.";
+                try {
+                    // Try to read the JSON error from Python
+                    const errorData = await response.json();
+                    if (errorData.error) {
+                        errorMessage = errorData.error;
+                    }
+                } catch (jsonError) {
+                    // If response wasn't JSON, fall back to status text
+                    errorMessage = `Server Error: ${response.status} ${response.statusText}`;
+                }
+                throw new Error(errorMessage);
+            }
 
             const data = await response.json();
             
+            // Check for logical errors inside a 200 OK response
+            if (data.error) {
+                throw new Error(data.error);
+            }
+
             displayAnalysis(data);
             addToHistory(data);
 
         } catch (error) {
-            console.error("Error:", error);
-            alert("An error occurred. Please check the console.");
+            console.error("Analysis Error:", error);
+            displayError(error.message); 
+            
         } finally {
             // C. RESET VISUAL EFFECTS
-
-            // 1. Stop Timer
             if (timerInterval) clearInterval(timerInterval);
             if (timerDisplay) {
                 const totalTime = ((Date.now() - startTime) / 1000).toFixed(2);
-                timerDisplay.innerText = `Analysis complete (${totalTime}s)`;
-                timerDisplay.style.color = '#166534'; 
+                timerDisplay.innerText = `Process finished (${totalTime}s)`;
             }
 
-            // 2. Restore Button
             if (activeBtn) {
                 activeBtn.innerText = originalText;
                 activeBtn.disabled = false;
@@ -99,7 +116,6 @@ if (form) {
                 activeBtn.style.cursor = "pointer";
             }
             
-            // 3. Stop Highlighter
             if (textInput) {
                 textInput.classList.remove('scanning');
             }
@@ -108,11 +124,44 @@ if (form) {
 }
 
 // =========================================================
-// 3. DISPLAY RESULTS (Updated with Progress Bar)
+// 3. HELPER: DISPLAY ERROR
+// =========================================================
+function displayError(message) {
+    // 1. Show the results area, hide the placeholder
+    document.getElementById('results-placeholder').style.display = 'none';
+    document.getElementById('results-area').style.display = 'block';
+
+    // 2. Hide the normal success elements
+    document.getElementById('scoreBox').style.display = 'none';
+    document.getElementById('classifications').style.display = 'none';
+    document.getElementById('sources-list').innerHTML = ''; // Clear sources
+
+    // 3. Inject the error message into the result container (Red Box)
+    const resultContainer = document.getElementById('result-container');
+    
+    // Ensure the container is visible to show the error
+    resultContainer.style.display = 'block';
+    
+    resultContainer.innerHTML = `
+        <div style="text-align:center; padding: 24px; color: #b91c1c; background-color: #fee2e2; border: 1px solid #fca5a5; border-radius: 8px;">
+            <h3 style="margin-top:0; font-family: 'Rubik', sans-serif;">⚠️ Analysis Failed</h3>
+            <p style="margin-top:10px; font-size: 1.1rem; line-height: 1.5;">${message}</p>
+        </div>
+    `;
+}
+
+// =========================================================
+// 4. DISPLAY RESULTS (Success Case)
 // =========================================================
 function displayAnalysis(data) {
     document.getElementById('results-placeholder').style.display = 'none';
     document.getElementById('results-area').style.display = 'block';
+
+    // Ensure success elements are visible (in case previous run was an error)
+    const scoreBox = document.getElementById('scoreBox');
+    const classBox = document.getElementById('classifications');
+    scoreBox.style.display = 'block';
+    classBox.style.display = 'block';
 
     const verdictLabel = document.getElementById('verdict-label');
     verdictLabel.innerText = data.score_label;
@@ -120,23 +169,16 @@ function displayAnalysis(data) {
     document.getElementById('classification-text').innerText = data.classification_text;
     document.getElementById('confidence-score').innerText = data.model_confidence + "%";
 
-    // --- NEW: Update Progress Bar ---
+    // --- Update Progress Bar ---
     const progressBar = document.getElementById('confidence-bar');
     if (progressBar) {
-        // Reset width to 0 first to force animation on new searches
         progressBar.style.width = '0%';
-        
-        // Small delay to allow the browser to register the reset, then animate to target
         setTimeout(() => {
             progressBar.style.width = data.model_confidence + "%";
         }, 100);
     }
-    // -------------------------------
 
     if (data.colors) {
-        const scoreBox = document.getElementById('scoreBox');
-        const classBox = document.getElementById('classifications');
-
         scoreBox.style.backgroundColor = data.colors.bg_color;
         scoreBox.style.border = `1px solid ${data.colors.accent_color}`;
         verdictLabel.style.color = data.colors.text_color;
@@ -145,19 +187,26 @@ function displayAnalysis(data) {
         classBox.style.borderLeft = `5px solid ${data.colors.accent_color}`;
         classBox.style.color = data.colors.text_color;
 
-        // Apply color to the progress bar too!
         if (progressBar) {
-            progressBar.style.backgroundColor = data.colors.text_color; // e.g. Dark Red or Dark Green
+            progressBar.style.backgroundColor = data.colors.text_color;
         }
     }
 
-    // Influential Sentences / LIME Highlights
+    // --- UPDATED LOGIC: Hide Box if No Text (Video Analysis) ---
     const highlightBox = document.getElementById('result-container');
-    if (data.lime_html) {
+    const legendBox = document.querySelector('.legend-box');
+
+    if (data.lime_html && data.lime_html.trim() !== "") {
+        // Text Analysis: Show box + legend
+        highlightBox.style.display = 'block';
         highlightBox.innerHTML = data.lime_html;
+        if (legendBox) legendBox.style.display = 'block';
     } else {
-        highlightBox.innerHTML = "<p>No text analysis available.</p>";
+        // Video Analysis: Hide box + legend
+        highlightBox.style.display = 'none';
+        if (legendBox) legendBox.style.display = 'none';
     }
+    // ------------------------------------------------------------
 
     const sourcesList = document.getElementById('sources-list');
     sourcesList.innerHTML = ''; 
@@ -183,8 +232,9 @@ function displayAnalysis(data) {
         sourcesList.innerHTML = '<p class="text-muted">No supporting articles found.</p>';
     }
 }
+
 // =========================================================
-// 4. ADD TO HISTORY
+// 5. ADD TO HISTORY
 // =========================================================
 function addToHistory(data) {
     let history = JSON.parse(localStorage.getItem('credibility_history')) || [];
@@ -231,7 +281,7 @@ function addToHistory(data) {
 }
 
 // =========================================================
-// 5. FILTER LOGIC
+// 6. FILTER LOGIC
 // =========================================================
 window.filterHistoryItems = function() {
     const searchInput = document.getElementById('history-search-input');
@@ -269,7 +319,7 @@ window.filterHistoryItems = function() {
 };
 
 // =========================================================
-// 6. RENDER HISTORY
+// 7. RENDER HISTORY
 // =========================================================
 function renderHistory(itemsToRender = null) {
     const container = document.getElementById('history-list');
@@ -333,7 +383,7 @@ function renderHistory(itemsToRender = null) {
 }
 
 // =========================================================
-// 7. ACTIONS
+// 8. ACTIONS
 // =========================================================
 window.restoreSession = function(id) {
     const history = JSON.parse(localStorage.getItem('credibility_history')) || [];
